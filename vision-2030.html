@@ -1,0 +1,511 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2030 비전 | SIEFF 지속가능성 리포트</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', 'Inter', sans-serif; }
+        .font-en { font-family: 'Inter', sans-serif; }
+        .section-title { border-left: 4px solid #10B981; padding-left: 1rem; }
+        .image-placeholder { background-color: #e2e8f0; display: flex; align-items: center; justify-content: center; color: #64748b; font-weight: bold; text-align: center; }
+        .bg-hero-vision-2030 { background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1534796636615-1b0428400ce4?q=80&w=2070&auto=format&fit=crop'); }
+
+        /* 넷제로 전략 다이어그램 스타일 */
+        .strategy-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-radius: 1rem;
+            position: relative;
+        }
+        
+        .vision-center {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 1rem;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+            z-index: 10;
+        }
+        
+        .principles-container {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin: 2rem 0;
+        }
+        
+        .principle-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            position: relative;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .principle-engagement {
+            background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+        }
+        
+        .principle-sustainability {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+        }
+        
+        .principle-action {
+            background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
+        }
+        
+        .strategies-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            gap: 1rem;
+        }
+        
+        .strategy-group {
+            flex: 1;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 로드맵 다이어그램 스타일 */
+        .roadmap-container {
+            background: linear-gradient(135deg, #fefce8 0%, #fef3c7 100%);
+            padding: 2rem;
+            border-radius: 1rem;
+            overflow-x: auto;
+        }
+        
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0; /* Remove margin-bottom from timeline */
+            position: relative;
+            gap: 2rem; /* Match strategies-flow gap */
+            padding: 0; /* Remove padding from timeline */
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6 0%, #10b981 50%, #f59e0b 100%);
+            z-index: 1;
+        }
+        
+        .phase {
+            background: white;
+            padding: 1rem 0;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            text-align: center;
+            flex: 1; /* Make phases take equal width */
+            margin-bottom: 1rem; /* Add margin-bottom to phase to separate from strategies-flow */
+        }
+        
+        .phase-1 { border-top: 4px solid #3b82f6; }
+        .phase-2 { border-top: 4px solid #10b981; }
+        .phase-3 { border-top: 4px solid #f59e0b; }
+        
+        .strategies-flow {
+            display: flex;
+            justify-content: space-between;
+            gap: 2rem;
+            margin-top: 0; /* Remove margin-top from strategies-flow */
+        }
+
+        .roadmap-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            align-items: start; /* Align items to the start of their grid area */
+        }
+
+        .roadmap-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center content horizontally within the column */
+            text-align: center; /* Center text within the column */
+        }
+        
+        .phase-strategies {
+            flex: 1;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .strategy-item {
+            background: #f8fafc;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            border-radius: 0.5rem;
+            border-left: 3px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .strategy-item:hover {
+            border-left-color: #3b82f6;
+            background: #f1f5f9;
+        }
+        
+        .connection-arrow {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin: 0.5rem 0;
+        }
+        
+        .connection-arrow::after {
+            content: '→';
+            color: #6b7280;
+            font-size: 1.5rem;
+            margin-left: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .principles-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+            
+            .strategies-container {
+                flex-direction: column;
+            }
+            
+            .strategies-flow {
+                flex-direction: column;
+            }
+            
+            .timeline {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .timeline::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-gray-700">
+
+    <!-- Header -->
+    <header class="bg-white/90 backdrop-blur-lg shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-xl font-bold text-emerald-700 font-en">SIEFF x Korea Green Fund</a>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="index.html" class="text-gray-600 hover:text-emerald-600">홈</a>
+                <a href="global-research.html" class="text-gray-600 hover:text-emerald-600">글로벌 동향</a>
+                
+                <a href="sieff-impact.html" class="text-gray-600 hover:text-emerald-600">SIEFF 임팩트</a>
+                <a href="guidelines.html" class="text-gray-600 hover:text-emerald-600">실행 가이드</a>
+                <a href="vision-2030.html" class="text-emerald-600 font-bold">2030 비전</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-hero-vision-2030 bg-cover bg-center flex items-center justify-center h-64 text-white">
+        <div class="text-center px-6">
+            <h1 class="text-4xl md:text-5xl font-black mt-2 mb-2 leading-tight">2030 비전</h1>
+            <p class="text-lg md:text-xl text-emerald-300 font-bold">넷제로를 넘어, 지속가능한 미래로</p>
+        </div>
+    </section>
+
+    <main class="container mx-auto px-6 py-16">
+        <section class="text-center mb-20">
+            <h1 class="text-5xl font-black text-gray-900">SIEFF 2030: 넷제로를 넘어</h1>
+            <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">우리의 여정은 넷제로 달성에 그치지 않습니다. 2030년을 향한 단계별 로드맵을 통해, 아시아를 대표하는 지속가능성 플랫폼으로 성장할 것입니다.</p>
+        </section>
+
+        <!-- 서울국제환경영화제의 '2030 넷제로 전략' -->
+        <section class="mb-20">
+            <h2 class="text-3xl font-bold text-gray-800 mb-8 section-title">서울국제환경영화제의 '2030 넷제로 전략'</h2>
+            <div class="strategy-diagram">
+                <!-- 비전 중앙 배치 -->
+                <div class="vision-center">
+                    <h3 class="text-2xl font-bold mb-2">Net-Zero SIEFF</h3>
+                    <p class="text-lg">넷제로 서울국제환경영화제</p>
+                    <p class="text-sm mt-2">시민 참여와 연대를 통해 넷제로를 실천하는 지속가능한 영화제</p>
+                </div>
+                
+                <!-- 원칙들 -->
+                <div class="principles-container">
+                    <div class="principle-circle principle-engagement">
+                        <div class="text-4xl mb-1">🤝</div>
+                        <div class="text-sm font-bold">참여</div>
+                        <div class="text-xs">ENGAGEMENT</div>
+                    </div>
+                    <div class="principle-circle principle-sustainability">
+                        <div class="text-4xl mb-1">🌱</div>
+                        <div class="text-sm font-bold">지속가능성</div>
+                        <div class="text-xs">SUSTAINABILITY</div>
+                    </div>
+                    <div class="principle-circle principle-action">
+                        <div class="text-4xl mb-1">🚀</div>
+                        <div class="text-sm font-bold">행동</div>
+                        <div class="text-xs">ACTION</div>
+                    </div>
+                </div>
+                
+                <!-- 전략들 -->
+                <div class="strategies-container">
+                    <div class="strategy-group border-t-4 border-cyan-500">
+                        <h4 class="font-bold text-cyan-700 mb-3">참여 전략</h4>
+                        <ul class="space-y-2 text-sm">
+                            <li class="flex items-start">
+                                <span class="text-cyan-500 mr-2">•</span>
+                                '지속가능 상영' 핵심 지표 및 가이드라인 수립
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-cyan-500 mr-2">•</span>
+                                시민·관객 참여형 '그린 리워드' 프로그램 시작
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-cyan-500 mr-2">•</span>
+                                탄소 측정·공시 체계 도입
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="strategy-group border-t-4 border-emerald-500">
+                        <h4 class="font-bold text-emerald-700 mb-3">지속가능성 전략</h4>
+                        <ul class="space-y-2 text-sm">
+                            <li class="flex items-start">
+                                <span class="text-emerald-500 mr-2">•</span>
+                                친환경 인프라 구축 및 운영시스템 고도화
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-emerald-500 mr-2">•</span>
+                                '넷제로' 영화제 실현
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-emerald-500 mr-2">•</span>
+                                지속가능한 투자·수익 모델 도입
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="strategy-group border-t-4 border-amber-500">
+                        <h4 class="font-bold text-amber-700 mb-3">행동 전략</h4>
+                        <ul class="space-y-2 text-sm">
+                            <li class="flex items-start">
+                                <span class="text-amber-500 mr-2">•</span>
+                                차세대 환경콘텐츠 혁신 허브 구축
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-amber-500 mr-2">•</span>
+                                국내외 어젠다 리더십 확보
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-amber-500 mr-2">•</span>
+                                환경영화제 '플랫폼화' & 지속가능 모델 확산
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 단계별 SIEFF 넷제로 전략 -->
+        <section class="mb-20">
+            <h2 class="text-3xl font-bold text-gray-800 mb-8 section-title">단계별 SIEFF 넷제로 전략</h2>
+            <p class="text-lg text-gray-700 mb-8">탄소중립을 실현하기 위해 단기(1~2년), 중기(3~5년), 장기(6~10년)로 구분해 9가지 전략을 제시합니다. 각 단계가 상호 유기적으로 연결되어 최종 비전을 달성하도록 설계되었습니다.</p>
+            <div class="roadmap-container">
+                <div class="roadmap-grid">
+                    <!-- Phase 1 Column -->
+                    <div class="roadmap-column">
+                        <div class="phase phase-1">
+                            <h3 class="font-bold text-blue-700">Phase I</h3>
+                            <p class="text-sm text-gray-600">단기 (Foundation)</p>
+                            <p class="text-xs text-gray-500">2025-2027년</p>
+                        </div>
+                        <div class="phase-strategies border-t-4 border-blue-500">
+                            <h4 class="font-bold text-blue-700 mb-3">기반 구축 단계</h4>
+                            <p class="text-sm text-gray-600 mb-4">영화제가 지속가능성 체계를 갖추는 "기반 구축" 단계</p>
+                            <div class="strategy-item">
+                                <div class="font-semibold text-sm">'지속가능 상영' 지표 및 가이드라인 수립</div>
+                            </div>
+                            <div class="strategy-item">
+                                <div class="font-semibold text-sm">시민·관객 참여형 '그린 리워드' 프로그램</div>
+                            </div>
+                            <div class="strategy-item">
+                                <div class="font-semibold text-sm">탄소 측정·공시 체계 도입</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Phase 2 Column -->
+                    <div class="roadmap-column">
+                        <div class="phase phase-2">
+                            <h3 class="font-bold text-emerald-700">Phase II</h3>
+                            <p class="text-sm text-gray-600">중기 (Acceleration)</p>
+                            <p class="text-xs text-gray-500">2027-2030년</p>
+                        </div>
+                        <div class="phase-strategies border-t-4 border-emerald-500">
+                            <h4 class="font-bold text-emerald-700 mb-3">확장 강화 단계</h4>
+                            <p class="text-sm text-gray-600 mb-4">기반을 확장하여, 영화제 운영 시스템과 재원 구조, 협력 네트워크 강화 단계</p>
+                            <div class="strategy-item">
+                                <div class="font-semibold text-sm">친환경 인프라 및 운영 시스템 고도화</div>
+                            </div>
+                            <div class="strategy-item">
+                                <div class="font-semibold text-sm">'넷제로' 영화제 구현</div>
+                            </div>
+                            <div class="strategy-item">
+                                <div class="font-semibold text-sm">지속가능성 투자·수익 모델 혁신</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Phase 3 Column -->
+                    <div class="roadmap-column">
+                        <div class="phase phase-3">
+                            <h3 class="font-bold text-amber-700">Phase III</h3>
+                            <p class="text-sm text-gray-600">장기 (Leadership)</p>
+                            <p class="text-xs text-gray-500">2030-2035년~</p>
+                        </div>
+                        <div class="phase-strategies border-t-4 border-amber-500">
+                            <h4 class="font-bold text-amber-700 mb-3">글로벌 리더십 단계</h4>
+                            <p class="text-sm text-gray-600 mb-4">탄소중립을 달성하고 전 세계 문화행사 생태계에서 리더십을 확보하는 단계</p>
+                            <div class="strategy-item">
+                                <div class="font-semibold text-sm">글로벌 어젠다 리더십 확보</div>
+                            </div>
+                            <div class="strategy-item">
+                                <div class="font-semibold text-sm">환경영화제 '플랫폼화' & 지속가능 모델 확산</div>
+                            </div>
+                            <div class="strategy-item">
+                                <div class="font-semibold text-sm">차세대 환경 콘텐츠 혁신의 허브 구축</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 최종 목표 표시 -->
+                <div class="text-center mt-8">
+                    <div class="inline-flex items-center bg-green-100 text-green-800 px-6 py-3 rounded-full font-bold">
+                        <span class="text-2xl mr-2">🎯</span>
+                        탄소중립 Net-Zero 달성
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phase별 상세 설명 섹션들 -->
+        <!-- Phase 1 -->
+        <section class="mb-16">
+            <div class="bg-white p-8 rounded-xl shadow-md border-t-4 border-blue-500">
+                <h3 class="text-2xl font-bold text-blue-700 mb-4">Phase 1: 단기 (Foundation) - 2025-2027년</h3>
+                <p class="text-lg text-gray-700 mb-6">영화제가 지속가능성 체계를 갖추는 "기반 구축" 단계입니다.</p>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="font-bold text-xl text-gray-800 mb-3">전략 및 목표</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>'지속가능 상영' 핵심 지표 및 가이드라인 수립</li>
+                            <li>시민·관객 참여형 '그린 리워드' 프로그램 시작</li>
+                            <li>탄소 측정·공시 체계 도입</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-xl text-gray-800 mb-3">주요 내용</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>영화제 운영과정에서 지켜야 할 최소한의 친환경·사회적 기준 마련 (에너지 절감, 폐기물 관리, 상영관 접근성 등)</li>
+                            <li>앱 또는 웹 플랫폼 구축, 관객의 '실천 인증' 시스템 운영, 현장 캠페인 참여 시 포인트 적립 등</li>
+                            <li>행사 전/후 발생하는 탄소배출량 정량적 파악, 투명하게 공개, 중장기 탄소배출 추적 DB 구축</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phase 2 -->
+        <section class="mb-16">
+            <div class="bg-white p-8 rounded-xl shadow-md border-t-4 border-emerald-500">
+                <h3 class="text-2xl font-bold text-emerald-700 mb-4">Phase 2: 중기 (Acceleration) - 2027-2030년</h3>
+                <p class="text-lg text-gray-700 mb-6">기반을 확장하여, 영화제 운영 시스템과 재원 구조, 협력 네트워크를 강화하는 단계입니다.</p>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="font-bold text-xl text-gray-800 mb-3">전략 및 목표</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>친환경 인프라 구축 및 운영 시스템 고도화</li>
+                            <li>'넷제로' 영화제 실현</li>
+                            <li>지속가능성 투자·수익 모델 혁신</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-xl text-gray-800 mb-3">주요 내용</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>LED 조명, 태양광·풍력 등 재생에너지 연계, 냉난방 효율 개선, 친환경 소재 활용 홍보물 제작</li>
+                            <li>친환경 교통 인센티브, 재생에너지 확대, 고효율 설비로 에너지 소비 최소화, 배출량 감축 어려운 영역 상쇄</li>
+                            <li>ESG 지향 후원사·파트너사와 장기협약 체결, 친환경 기금 조성, 친환경 굿즈·MD 상품 판매 수익 기금 조성</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phase 3 -->
+        <section class="mb-16">
+            <div class="bg-white p-8 rounded-xl shadow-md border-t-4 border-amber-500">
+                <h3 class="text-2xl font-bold text-amber-700 mb-4">Phase 3: 장기 (Leadership) - 2030년 ~</h3>
+                <p class="text-lg text-gray-700 mb-6">탄소중립을 달성하고 전 세계 문화행사 생태계에서 리더십을 확보하는 단계입니다.</p>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="font-bold text-xl text-gray-800 mb-3">전략 및 목표</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>차세대 환경콘텐츠 혁신 허브 구축</li>
+                            <li>국내외 어젠다 리더십 확보</li>
+                            <li>환경영화제 '플랫폼화' & 지속가능 모델 확산</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-xl text-gray-800 mb-3">주요 내용</h4>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>VR/AR/AI·메타버스 등 디지털 신기술 활용 생태·환경 시뮬레이션 콘텐츠 개발/상영, 청소년·청년 창작자 대상 '환경콘텐츠 랩' 운영</li>
+                            <li>국제환경기구·해외영화제와 공동 포럼·정책대화 개최, 영화제 기간 중 기후협약 서포트, 탄소중립 문화행사 사례 발표</li>
+                            <li>연중 상시 운영되는 디지털 플랫폼으로 확장, 영화제·문화행사에 대한 컨설팅 제공</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white mt-24">
+        <div class="container mx-auto px-6 py-12 text-center">
+            <p class="font-bold text-lg">Korea Green Fund</p>
+            <p class="mt-2 text-gray-400">주최: (재)환경재단</p>
+            <p class="mt-4 text-sm text-gray-500">© 2025 Seoul International Eco Film Festival. All Rights Reserved.본 페이지는 2025년 SIEFF 지속가능성 임팩트 리포트의 내용을 시각화한 인터랙티브 웹 애플리케이션입니다.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

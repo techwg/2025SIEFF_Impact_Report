@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 서울국제환경영화제 | 인터랙티브 임팩트 리포트</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Earth & Vibrant GreenFoot -->
+    <!-- Application Structure Plan: A thematic, single-page dashboard structure. It starts with a high-level overview (key stats, emission breakdown), then allows users to navigate via a sticky header to a 'Deep Dive' section with tabs for detailed analysis of each category (Energy, Travel, Food, Resources/Waste). A new, distinct top-level section for the 'GreenFoot' citizen-led data has been added to highlight its special nature, as requested. The report concludes with the 'Net-Zero Strategy' and a 'Data Hub'. This structure caters to different user needs: a quick summary, detailed explorable sections, and a special focus on community engagement. -->
+    <!-- Visualization & Content Choices: 1. Overall Emissions: Donut Chart (Goal: Inform proportion). 2. Year-over-Year Comparison: Bar Chart (Goal: Compare change). 3. Deep Dive Charts: Grouped Bar Chart for Energy, Donut for Travel, Bar for Food (Goal: Compare & Analyze). 4. GreenFoot Section: Replicated the key charts (Pie, Bar, Line) from the provided HTML to analyze citizen-submitted data, using a distinct color palette to differentiate it. All charts use Chart.js (Canvas). Interactive tabs and navigation support user-driven exploration. CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        .nav-link {
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #10B981;
+            /* Emerald-500 */
+            transform: translateY(-2px);
+        }
+
+        .kpi-card {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(200, 200, 200, 0.5);
+        }
+
+        .tab {
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab-active {
+            border-color: #10B981;
+            color: #10B981;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-emerald-700">SIEFF 2025 Impact Hub</a>
+            <div class="hidden md:flex space-x-6">
+                <a href="sieff-impact.html" class="text-gray-600 hover:text-emerald-600">SIEFF 임팩트</a>
+                <a href="impact-report.html" class="text-emerald-600 font-bold">임팩트 리포트</a>
+                <a href="mfa-report.html" class="text-gray-600 hover:text-emerald-600">물질흐름분석</a>
+            </div>
+            <div class="md:hidden">
+                <button id="menu-btn" class="text-gray-600 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden px-6 pb-4">
+            <a href="sieff-impact.html" class="block py-2 text-gray-600 hover:text-emerald-600">SIEFF 임팩트</a>
+            <a href="impact-report.html" class="block py-2 text-emerald-600 font-bold">임팩트 리포트</a>
+            <a href="mfa-report.html" class="block py-2 text-gray-600 hover:text-emerald-600">물질흐름분석</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+
+        <!-- Hero Section -->
+        <section id="hero" class="text-center mb-24">
+            <div class="text-5xl md:text-6xl font-extrabold text-emerald-900 mb-6">제22회 서울국제환경영화제</div>
+            <h1 class="text-4xl md:text-5xl font-bold text-emerald-800 mb-4">2025 지속가능성 임팩트 리포트</h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                '2030 넷제로'를 향한 서울국제환경영화제의 약속과 실천, 그 첫 번째 기록을 인터랙티브 데이터로 만나보세요.
+            </p>
+        </section>
+
+        <!-- Overview Section -->
+        <section id="overview" class="mb-24 scroll-mt-24">
+            <h2 class="text-3xl font-bold text-gray-800 mb-2 border-l-4 border-emerald-500 pl-4">총괄 개요</h2>
+            <p class="text-gray-600 mb-12">2025년은 '넷제로 전략'의 원년으로, 탄소 배출량 측정 체계를 고도화하고 실질적인 감축 활동을 시작했습니다. 아래는 올해의 최종 핵심
+                성과입니다.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+                <div class="kpi-card p-6 rounded-lg shadow-md text-center">
+                    <h3 class="text-lg font-semibold text-gray-500 mb-2">총 탄소배출량</h3>
+                    <p class="text-4xl font-bold text-emerald-600"><span id="total-emissions"></span> <span
+                            class="text-xl">kgCO₂e</span></p>
+                    <p class="text-sm text-red-600 font-semibold mt-2">▲ <span id="total-emissions-change-pct"></span>%
+                        증가 (vs 2024)</p>
+                </div>
+                <div class="kpi-card p-6 rounded-lg shadow-md text-center">
+                    <h3 class="text-lg font-semibold text-gray-500 mb-2">1인당 배출량</h3>
+                    <p class="text-4xl font-bold text-emerald-600"><span id="per-capita-emissions"></span> <span
+                            class="text-xl">kg/인</span></p>
+                    <p class="text-sm text-red-600 font-semibold mt-2">▲ <span id="per-capita-change-pct"></span>% 증가
+                        (vs 2024)</p>
+                </div>
+                <div class="kpi-card p-6 rounded-lg shadow-md text-center">
+                    <h3 class="text-lg font-semibold text-gray-500 mb-2">에너지 부문 성과</h3>
+                    <p class="text-4xl font-bold text-blue-600">▲ 414%</p>
+                    <p class="text-sm text-gray-500 mt-2">온라인 송출 확대로 인한 증가</p>
+                </div>
+                <div class="kpi-card p-6 rounded-lg shadow-md text-center">
+                    <h3 class="text-lg font-semibold text-gray-500 mb-2">식음료 부문 감축</h3>
+                    <p class="text-4xl font-bold text-green-600">▼ 59.9%</p>
+                    <p class="text-sm text-gray-500 mt-2">저탄소 메뉴 제공 효과</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4 text-center">2025 부문별 배출량 구성</h3>
+                    <div class="chart-container h-80 md:h-96">
+                        <canvas id="overviewDonutChart"></canvas>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold mb-4 text-center">연간 부문별 배출량 비교</h3>
+                    <div class="chart-container h-80 md:h-96">
+                        <canvas id="comparisonBarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Deep Dive Section -->
+        <section id="deep-dive" class="mb-24 scroll-mt-24">
+            <h2 class="text-3xl font-bold text-gray-800 mb-2 border-l-4 border-emerald-500 pl-4">부문별 심층 분석</h2>
+            <p class="text-gray-600 mb-8">각 부문별 탄소 배출 현황과 '지속가능 상영 가이드라인' 적용 성과를 자세히 살펴보세요.</p>
+
+            <div class="border-b border-gray-200 mb-8">
+                <nav class="-mb-px flex space-x-6 overflow-x-auto" aria-label="Tabs">
+                    <button class="tab tab-active whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg"
+                        data-tab="travel">✈️ 여행/교통</button>
+                    <button
+                        class="tab whitespace-nowrap py-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 font-medium text-lg"
+                        data-tab="energy">💡 에너지</button>
+                    <button
+                        class="tab whitespace-nowrap py-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 font-medium text-lg"
+                        data-tab="food">🍴 음식/음료</button>
+                    <button
+                        class="tab whitespace-nowrap py-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 font-medium text-lg"
+                        data-tab="waste">♻️ 자원/폐기물</button>
+                </nav>
+            </div>
+
+            <!-- Travel Tab Content -->
+            <div id="travel-content" class="tab-content">
+                <h3 class="text-2xl font-bold mb-4">여행/교통 부문 분석</h3>
+                <p class="mb-8 text-gray-600">
+                    여행/교통은 총 배출량의 <strong class="text-red-600" id="travel-emission-pct"></strong>를 차지하는 가장 큰 배출원입니다. 총
+                    배출량은 <strong class="text-red-600" id="travel-total-emissions"></strong> kgCO₂e로, 영화제 참가자 수 증가 및 해외
+                    게스트 확대(1명→9명)로 인해 작년 대비 크게 증가했습니다.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h4 class="text-xl font-bold text-center mb-4">교통 부문 배출원 상세</h4>
+                        <div class="chart-container h-72">
+                            <canvas id="travelModeDonutChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md flex flex-col justify-center">
+                        <h4 class="text-xl font-bold mb-4">주요 인사이트</h4>
+                        <ul class="list-disc list-inside space-y-3 text-gray-600">
+                            <li><strong>국내 이동의 영향:</strong> 국내 참가자 이동(<strong id="domestic-travel-emissions"
+                                    class="text-gray-800"></strong> kg)이 전체 교통 배출량의 <strong id="domestic-travel-pct"
+                                    class="text-gray-800"></strong>를 차지하며, 가장 중요한 감축 영역임을 보여줍니다.</li>
+                            <li><strong>해외 게스트의 영향:</strong> 해외 게스트 초청으로 인한 항공 및 숙박 배출량(<strong
+                                    id="international-travel-emissions" class="text-gray-800"></strong> kg)은 교통 배출량의
+                                <strong id="international-travel-pct" class="text-gray-800"></strong>를 차지하여, 국제 교류 확대에
+                                따른 환경 영향을 명확히 보여줍니다.
+                            </li>
+                            <li><strong>대중교통의 중요성:</strong> 국내 이동의 배출량 중 약 <strong class="text-green-600">32%</strong>가
+                                탄소효율이 높은 대중교통(버스, 지하철)을 통해 발생했습니다. 이는 향후 감축 전략의 중요한 기반이 될 것입니다.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Energy Tab Content -->
+            <div id="energy-content" class="tab-content hidden">
+                <h3 class="text-2xl font-bold mb-4">에너지 부문 분석</h3>
+                <p class="mb-8 text-gray-600">
+                    2025년 에너지 부문 총 배출량은 <strong class="text-blue-600" id="energy-total-emissions"></strong> kgCO₂e로,
+                    작년(2,147 kgCO₂e) 대비 <strong class="text-red-600">414%</strong> 증가했습니다. 이는 온라인 송출 채널(IPTV, 유튜브 등)의 총
+                    상영 시간이 대폭 증가(68,220분 → 415,843분)한 것이 주요 원인입니다.
+                </p>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h4 class="text-xl font-bold text-center mb-4">에너지 채널별 배출량 비교 (2024 vs 2025)</h4>
+                    <div class="chart-container h-96 max-w-4xl">
+                        <canvas id="energyChannelChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Food Tab Content -->
+            <div id="food-content" class="tab-content hidden">
+                <h3 class="text-2xl font-bold mb-4">음식/음료 부문 분석</h3>
+                <p class="mb-8 text-gray-600">
+                    지속가능한 식음료 제공은 영화제의 중요한 실천 과제입니다. 올해 식음료 부문 총 배출량은 <strong class="text-yellow-600"
+                        id="food-total-emissions"></strong> kgCO₂e로, 작년 대비 <strong class="text-green-600"
+                        id="food-emissions-change-pct"></strong>% 감소했습니다. 이는 제공 인분 수가 감소하고 저탄소 메뉴 비중을 높인 결과입니다.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h4 class="text-xl font-bold text-center mb-4">음식 종류별 탄소 배출량</h4>
+                        <div class="chart-container h-72">
+                            <canvas id="foodTypeBarChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md flex flex-col justify-center">
+                        <h4 class="text-xl font-bold mb-4">주요 인사이트</h4>
+                        <ul class="list-disc list-inside space-y-3 text-gray-600">
+                            <li><strong>저탄소 메뉴의 효과:</strong> 채식 김밥, 식물성 음료 등 저탄소 메뉴는 전체 배출량의 <strong
+                                    class="text-green-600">20%</strong>만을 차지하며, 메뉴 선택의 중요성을 보여주었습니다.</li>
+                            <li><strong>일반식단의 영향:</strong> 스탭 식사와 케이터링 등 일반 식단이 배출량의 <strong
+                                    class="text-red-600">79%</strong>를 차지하여, 향후 이 부문의 메뉴 개선이 핵심 과제임을 시사합니다.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Waste Tab Content -->
+            <div id="waste-content" class="tab-content hidden">
+                <h3 class="text-2xl font-bold mb-4">자원 사용 및 폐기물 관리</h3>
+                <p class="mb-4 text-gray-600">
+                    '폐기물 제로'를 지향하며 자원 순환 경제 원칙을 적용했습니다. 탄소 배출량으로 직접 산정되지는 않지만, 영화제의 지속가능성을 보여주는 중요한 지표입니다.
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <div class="text-4xl mb-2">🎪</div>
+                        <h4 class="text-lg font-bold">렌탈 물품</h4>
+                        <p class="text-3xl font-bold text-emerald-600 mt-2">300+ <span class="text-lg">개</span></p>
+                        <p class="text-sm text-gray-500">텐트, 테이블, 의자 등</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <div class="text-4xl mb-2">📜</div>
+                        <h4 class="text-lg font-bold">재사용 제작물</h4>
+                        <p class="text-3xl font-bold text-emerald-600 mt-2">20+ <span class="text-lg">개</span></p>
+                        <p class="text-sm text-gray-500">현수막, 배너 등</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <div class="text-4xl mb-2">📄</div>
+                        <h4 class="text-lg font-bold">디지털화</h4>
+                        <p class="text-3xl font-bold text-emerald-600 mt-2">95%</p>
+                        <p class="text-sm text-gray-500">모바일 티켓 및 안내</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <div class="text-4xl mb-2">🗑️</div>
+                        <h4 class="text-lg font-bold">분리배출</h4>
+                        <p class="text-3xl font-bold text-emerald-600 mt-2">100%</p>
+                        <p class="text-sm text-gray-500">행사장 내 분리수거함 운영</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GreenFoot Special Section -->
+        <section id="greenfoot" class="mb-24 scroll-mt-24 bg-emerald-50/50 p-8 rounded-2xl">
+            <h2 class="text-3xl font-bold text-gray-800 mb-2 border-l-4 border-emerald-500 pl-4">특별 섹션: 시민참여형 '그린풋' 리포트
+            </h2>
+            <p class="text-gray-600 mb-8">
+                본 섹션은 탄소발자국 계산기 **"Greenfoot"**을 통해 영화제 참가자들이 **직접 자신의 이동 데이터를 입력하고 탄소 발자국 상쇄에 동의**하며 만들어진 소중한 기록입니다.
+                시민들의 자발적인 참여가 어떻게 지속가능한 영화제를 만드는지에 대한 깊이 있는 인사이트를 확인해보세요.
+            </p>
+            <div class="flex flex-wrap justify-center -m-2 mb-8">
+                <div class="bg-white p-4 rounded-lg shadow-md text-center flex-1 m-2 min-w-[200px]">
+                    <p class="text-3xl font-bold text-emerald-600">265<span class="text-base ml-1">명</span></p>
+                    <p class="text-sm text-gray-500 mt-1">총 고유 참여자</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-md text-center flex-1 m-2 min-w-[200px]">
+                    <p class="text-3xl font-bold text-emerald-600">1,950<span class="text-base ml-1">kgCO₂e</span></p>
+                    <p class="text-sm text-gray-500 mt-1">참여자가 기록한 총 배출량</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-md text-center flex-1 m-2 min-w-[200px]">
+                    <p class="text-3xl font-bold text-emerald-600">7.36<span class="text-base ml-1">kgCO₂e</span></p>
+                    <p class="text-sm text-gray-500 mt-1">1인당 평균 배출량</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 text-center">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <p class="text-5xl font-bold text-red-500">68.2%</p>
+                    <p class="mt-2 font-semibold text-lg">자가용의 탄소 배출량 기여도</p>
+                    <p class="mt-2 text-gray-600 text-sm">이동 기록의 27%를 차지한 자가용이 탄소 배출량의 68.2%를 차지하며 환경에 가장 큰 영향을 미쳤습니다.
+                    </p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <p class="text-5xl font-bold text-emerald-500">0kg CO₂</p>
+                    <p class="mt-2 font-semibold text-lg">자전거의 힘</p>
+                    <p class="mt-2 text-gray-600 text-sm">자전거를 선택한 참가자들은 탄소 배출 없이 이동하며 완벽한 친환경 이동을 실천했습니다. 작은 선택이 큰 변화를
+                        만듭니다.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <p class="text-5xl font-bold text-orange-500">8.1배</p>
+                    <p class="mt-2 font-semibold text-lg">지역별 배출량 격차</p>
+                    <p class="mt-2 text-gray-600 text-sm">강원 지역의 1회당 평균 배출량(34.1kg)은 서울(4.2kg)의 8.1배에 달해, 원거리 이동의 영향을
+                        명확히 보여줍니다.</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h4 class="text-xl font-bold text-center mb-4">어떤 이동수단이 주로 이용되었나?</h4>
+                    <p class="text-center text-gray-600 mb-4 text-sm">총 307건의 이동 기록 중 대중교통 이용이 67.4%로 가장 많았습니다.</p>
+                    <div class="chart-container h-72"><canvas id="greenfootTransportModePieChart"></canvas></div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h4 class="text-xl font-bold text-center mb-4">이동수단별 탄소 배출 기여도</h4>
+                    <p class="text-center text-gray-600 mb-4 text-sm">이용 건수는 적었지만, 자가용이 전체 탄소 배출량의 68.2%를 차지했습니다.</p>
+                    <div class="chart-container h-72"><canvas id="greenfootCarbonFootprintPieChart"></canvas></div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md md:col-span-2">
+                    <h4 class="text-xl font-bold text-center mb-4">이동수단별 효율성 비교 (1회 왕복 이동 기준)</h4>
+                    <p class="text-center text-gray-600 mb-4 text-sm">자가용의 평균 탄소 배출량은 대중교통의 3.3배에 달했습니다.</p>
+                    <div class="chart-container h-80 max-w-4xl"><canvas id="greenfootEfficiencyBarChart"></canvas></div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h4 class="text-xl font-bold text-center mb-4">어디에서 출발했나? (이동 기록 기준)</h4>
+                    <p class="text-center text-gray-600 mb-4 text-sm">전체 이동 기록의 85%가 수도권(서울, 경기, 인천)에서 출발했습니다.</p>
+                    <div class="chart-container h-72"><canvas id="greenfootRegionParticipantsChart"></canvas></div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h4 class="text-xl font-bold text-center mb-4">어디의 탄소 발자국이 클까? (지역별 1회 왕복 배출량)</h4>
+                    <p class="text-center text-gray-600 mb-4 text-sm">이동 거리가 먼 강원, 경상, 충청 지역의 1회당 평균 배출량이 높았습니다.</p>
+                    <div class="chart-container h-72"><canvas id="greenfootRegionCarbonChart"></canvas></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Strategy Section -->
+        <section id="strategy" class="mb-24 scroll-mt-24">
+            <h2 class="text-3xl font-bold text-gray-800 mb-2 border-l-4 border-emerald-500 pl-4">SIEFF 2030 넷제로 전략</h2>
+            <p class="text-gray-600 mb-12">지속가능한 영화제의 미래를 향한 구체적인 로드맵과 2025년의 핵심 실천 과제를 소개합니다.</p>
+            <div class="space-y-12">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                    <!-- Phase 1 -->
+                    <div class="bg-white p-8 rounded-lg shadow-lg border-t-4 border-emerald-500">
+                        <div class="text-emerald-500 text-4xl mb-4">Phase 1</div>
+                        <h3 class="text-2xl font-bold mb-2">기반 구축</h3>
+                        <p class="text-gray-500 mb-4">(2025-2027)</p>
+                        <ul class="text-left space-y-2 list-disc list-inside">
+                            <li class="font-bold text-emerald-700">'지속가능 상영' 가이드라인 수립</li>
+                            <li class="font-bold text-emerald-700">시민 참여형 '그린 리워드' 도입</li>
+                            <li class="font-bold text-emerald-700">탄소 측정 및 공시 체계 구축</li>
+                        </ul>
+                    </div>
+                    <!-- Phase 2 -->
+                    <div class="bg-gray-100 p-8 rounded-lg">
+                        <div class="text-gray-500 text-4xl mb-4">Phase 2</div>
+                        <h3 class="text-2xl font-bold mb-2">가속화</h3>
+                        <p class="text-gray-500 mb-4">(2027-2030)</p>
+                        <ul class="text-left space-y-2 list-disc list-inside text-gray-600">
+                            <li>친환경 인프라 고도화</li>
+                            <li>'넷제로' 영화제 구현</li>
+                            <li>지속가능 투자 모델 혁신</li>
+                        </ul>
+                    </div>
+                    <!-- Phase 3 -->
+                    <div class="bg-gray-100 p-8 rounded-lg">
+                        <div class="text-gray-500 text-4xl mb-4">Phase 3</div>
+                        <h3 class="text-2xl font-bold mb-2">리더십</h3>
+                        <p class="text-gray-500 mb-4">(2030 ~)</p>
+                        <ul class="text-left space-y-2 list-disc list-inside text-gray-600">
+                            <li>글로벌 어젠다 리더십 확보</li>
+                            <li>지속가능 모델 플랫폼화</li>
+                            <li>차세대 환경 콘텐츠 허브 구축</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Hub Section -->
+        <section id="data-hub" class="scroll-mt-24">
+            <h2 class="text-3xl font-bold text-gray-800 mb-2 border-l-4 border-emerald-500 pl-4">데이터 및 방법론</h2>
+            <p class="text-gray-600 mb-8">본 보고서의 데이터는 국제 표준과 작년 보고서의 일관성을 유지하며 측정되었습니다.</p>
+            <div class="bg-white p-8 rounded-lg shadow-md">
+                <h3 class="text-xl font-bold mb-4">측정 방법론</h3>
+                <ul class="list-disc list-inside space-y-2">
+                    <li><strong>산정 기준:</strong> 온실가스 배출량 산정은 국제 표준인 GHG Protocol을 따랐으며, Scope 1, 2, 3의 주요 배출원을 포함했습니다.
+                    </li>
+                    <li><strong>배출계수:</strong> 에너지(0.4781 kg/kWh), 교통(환경부 계수), 식음료(농업기술실용화재단 등) 등 신뢰도 높은 국가 및 연구기관의 계수를
+                        적용했습니다.</li>
+                    <li><strong>국내 참가자 이동:</strong> 참가자 대상 설문 및 주최 측 추산(자동차 40%, 버스 30%, 지하철 30%)을 기반으로 배출량을 산정했습니다.
+                    </li>
+                </ul>
+                <h3 class="text-xl font-bold mt-8 mb-4">한계점</h3>
+                <p>본 보고서의 모든 측정치에는 일부 추정이 포함될 수 있습니다. 특히 자원 사용 및 폐기물 부문은 배출량 산정이 어려워 정성적 성과 중심으로 보고되었습니다. 향후 데이터 수집 체계를
+                    더욱 고도화하여 보고의 정확성을 높여나가겠습니다.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-white mt-24">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p class="font-bold text-lg">Korea Green Fund</p>
+            <p class="mt-4 text-sm text-gray-400">© 2025 Seoul International Eco Film Festival. All Rights Reserved.본 페이지는 2025년 SIEFF 지속가능성 임팩트 리포트의 내용을 시각화한 인터랙티브 웹 애플리케이션입니다.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- DATA (Corrected based on user feedback) ---
+            const data2024 = {
+                totalEmissions: 38101,
+                totalParticipants: 10995,
+                travel: 30390.4,
+                energy: 2147.0,
+                food: 5563.0,
+                energyChannels: { '오프라인': 899.7, '온라인': 179.4, '방송': 57.4, 'IPTV': 20.7, '유튜브': 989.7 }
+            };
+
+            const data2025 = {
+                travel: {
+                    total: 181921,
+                    domestic: 144651,
+                    international: 36134,
+                    accommodation: 1044,
+                    logistics: 92,
+                    domesticModes: { car: 87433.62, bus: 34143.83, subway: 23252.55 }
+                },
+                energy: {
+                    total: 11011,
+                    channels: { '오프라인': 431.57, '온라인': 10459.4, '방송': 57.4, 'IPTV': 80.64, '유튜브': 10.42 }
+                },
+                food: {
+                    total: 2223,
+                    types: { '일반식': 1759.26, '채식': 32.48, '음료/기타': 430.8 }
+                },
+                totalParticipants: 61762,
+            };
+
+            // Calculated Totals
+            const totalEmissions2025 = data2025.travel.total + data2025.energy.total + data2025.food.total;
+            const perCapita2024 = data2024.totalEmissions / data2024.totalParticipants;
+            const perCapita2025 = totalEmissions2025 / data2025.totalParticipants;
+
+            // --- UI & TEXT UPDATE ---
+            const formatNumber = (num) => num.toLocaleString('ko-KR', { maximumFractionDigits: 0 });
+            const formatDecimal = (num) => num.toLocaleString('ko-KR', { maximumFractionDigits: 1 });
+
+            document.getElementById('total-emissions').textContent = formatNumber(totalEmissions2025);
+            document.getElementById('total-emissions-change-pct').textContent = formatDecimal((totalEmissions2025 / data2024.totalEmissions - 1) * 100);
+            document.getElementById('per-capita-emissions').textContent = formatDecimal(perCapita2025);
+            document.getElementById('per-capita-change-pct').textContent = formatDecimal((perCapita2025 / perCapita2024 - 1) * 100);
+
+            document.getElementById('travel-emission-pct').textContent = `${formatDecimal(data2025.travel.total / totalEmissions2025 * 100)}%`;
+            document.getElementById('travel-total-emissions').textContent = formatNumber(data2025.travel.total);
+            document.getElementById('domestic-travel-emissions').textContent = formatNumber(data2025.travel.domestic);
+            document.getElementById('domestic-travel-pct').textContent = `${formatDecimal(data2025.travel.domestic / data2025.travel.total * 100)}%`;
+            document.getElementById('international-travel-emissions').textContent = formatNumber(data2025.travel.international + data2025.travel.accommodation);
+            document.getElementById('international-travel-pct').textContent = `${formatDecimal((data2025.travel.international + data2025.travel.accommodation) / data2025.travel.total * 100)}%`;
+
+            document.getElementById('energy-total-emissions').textContent = formatNumber(data2025.energy.total);
+
+            document.getElementById('food-total-emissions').textContent = formatNumber(data2025.food.total);
+            document.getElementById('food-emissions-change-pct').textContent = formatDecimal(Math.abs(data2025.food.total / data2024.food - 1) * 100);
+
+            // --- INTERACTIVITY ---
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const target = tab.getAttribute('data-tab');
+                    tabs.forEach(t => t.classList.remove('tab-active'));
+                    tab.classList.add('tab-active');
+                    tabContents.forEach(c => c.id === `${target}-content` ? c.classList.remove('hidden') : c.classList.add('hidden'));
+                });
+            });
+
+            // --- CHARTS ---
+            Chart.register(ChartDataLabels);
+            const chartFont = { family: "'Noto Sans KR', sans-serif" };
+            const tooltipCallback = (context) => `${context.dataset.label}: ${formatNumber(context.raw)} kgCO₂e`;
+            const defaultChartOptions = {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { font: chartFont } },
+                    tooltip: { bodyFont: chartFont, titleFont: chartFont }
+                }
+            };
+
+            // 1. Overview Donut Chart
+            new Chart(document.getElementById('overviewDonutChart').getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['✈️ 여행/교통', '💡 에너지', '🍴 음식/음료'],
+                    datasets: [{
+                        data: [data2025.travel.total, data2025.energy.total, data2025.food.total],
+                        backgroundColor: ['#EF4444', '#3B82F6', '#F59E0B'],
+                        borderColor: '#F9FAFB', borderWidth: 4,
+                    }]
+                },
+                options: {
+                    ...defaultChartOptions,
+                    plugins: {
+                        ...defaultChartOptions.plugins,
+                        tooltip: {
+                            ...defaultChartOptions.plugins.tooltip,
+                            callbacks: {
+                                label: (c) => {
+                                    const percentage = (c.raw / totalEmissions2025 * 100).toFixed(1);
+                                    return `${c.label}: ${formatNumber(c.raw)} kgCO₂e (${percentage}%)`;
+                                }
+                            }
+                        },
+                        datalabels: {
+                            formatter: (value, ctx) => {
+                                const total = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                const percentage = (value / total * 100);
+                                // 5% 이상만 표시, 숫자+%를 줄바꿈으로
+                                return percentage > 5 ? formatNumber(value) + '\n(' + percentage.toFixed(1) + '%)' : '';
+                            },
+                            color: '#fff',
+                            font: { weight: 'bold', size: 18 },
+                            anchor: 'center',
+                            align: 'center',
+                        }
+                    }
+                }
+            });
+
+            // 2. Comparison Bar Chart
+            new Chart(document.getElementById('comparisonBarChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['여행/교통', '에너지', '음식/음료'],
+                    datasets: [
+                        { label: '2024년', data: [data2024.travel, data2024.energy, data2024.food], backgroundColor: '#A5B4FC' },
+                        { label: '2025년', data: [data2025.travel.total, data2025.energy.total, data2025.food.total], backgroundColor: '#6EE7B7' }
+                    ]
+                },
+                options: {
+                    ...defaultChartOptions,
+                    plugins: {
+                        ...defaultChartOptions.plugins, legend: { position: 'top' }, tooltip: { callbacks: { label: tooltipCallback } },
+                        datalabels: {
+                            anchor: 'end',
+                            align: 'top',
+                            formatter: (value) => formatNumber(value),
+                            color: '#333',
+                            font: { weight: 'bold', size: 14 }
+                        }
+                    },
+                    scales: { y: { beginAtZero: true, title: { display: true, text: '배출량 (kgCO₂e)', font: chartFont }, ticks: { font: chartFont } }, x: { ticks: { font: chartFont } } }
+                }
+            });
+
+            // 3. Travel Mode Donut Chart
+            new Chart(document.getElementById('travelModeDonutChart').getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['✈️ 해외(항공/숙박)', '🚗 국내(자동차)', '🚌 국내(대중교통)'],
+                    datasets: [{
+                        data: [data2025.travel.international + data2025.travel.accommodation, data2025.travel.domesticModes.car, data2025.travel.domesticModes.bus + data2025.travel.domesticModes.subway],
+                        backgroundColor: ['#DC2626', '#F87171', '#34D399'],
+                        borderColor: '#FFFFFF', borderWidth: 4,
+                    }]
+                },
+                options: {
+                    ...defaultChartOptions,
+                    plugins: {
+                        ...defaultChartOptions.plugins,
+                        tooltip: {
+                            ...defaultChartOptions.plugins.tooltip,
+                            callbacks: {
+                                label: (c) => {
+                                    const percentage = (c.raw / data2025.travel.total * 100).toFixed(1);
+                                    return `${c.label}: ${formatNumber(c.raw)} kgCO₂e (${percentage}%)`;
+                                }
+                            }
+                        },
+                        datalabels: {
+                            formatter: (value, ctx) => {
+                                const total = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                const percentage = (value / total * 100);
+                                return percentage > 5 ? formatNumber(value) + '\n(' + percentage.toFixed(1) + '%)' : '';
+                            },
+                            color: '#fff',
+                            font: { weight: 'bold', size: 18 },
+                            anchor: 'center',
+                            align: 'center',
+                        }
+                    }
+                }
+            });
+
+            // 4. Energy Channel Chart (막대, y축)
+            new Chart(document.getElementById('energyChannelChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['오프라인', '온라인', '방송', 'IPTV', '유튜브'],
+                    datasets: [
+                        { label: '2024년', data: Object.values(data2024.energyChannels), backgroundColor: '#A5B4FC' },
+                        { label: '2025년', data: Object.values(data2025.energy.channels), backgroundColor: '#6EE7B7' }
+                    ]
+                },
+                options: {
+                    ...defaultChartOptions, indexAxis: 'y',
+                    plugins: {
+                        ...defaultChartOptions.plugins, legend: { position: 'top' }, tooltip: { callbacks: { label: tooltipCallback } },
+                        datalabels: {
+                            anchor: 'end',
+                            align: 'right',
+                            formatter: (value) => formatNumber(value),
+                            color: '#333',
+                            font: { weight: 'bold', size: 14 }
+                        }
+                    },
+                    scales: { y: { ticks: { font: chartFont } }, x: { title: { display: true, text: '배출량 (kgCO₂e)', font: chartFont }, ticks: { font: chartFont } } }
+                }
+            });
+
+            // 5. Food Type Bar Chart (막대, y축)
+            new Chart(document.getElementById('foodTypeBarChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(data2025.food.types),
+                    datasets: [{
+                        label: '2025년 배출량',
+                        data: Object.values(data2025.food.types),
+                        backgroundColor: ['#F59E0B', '#4ADE80', '#A3E635'],
+                    }]
+                },
+                options: {
+                    ...defaultChartOptions, indexAxis: 'y',
+                    plugins: {
+                        ...defaultChartOptions.plugins, legend: { display: false }, tooltip: { callbacks: { label: tooltipCallback } },
+                        datalabels: {
+                            anchor: 'end',
+                            align: 'right',
+                            formatter: (value) => formatNumber(value),
+                            color: '#333',
+                            font: { weight: 'bold', size: 14 }
+                        }
+                    },
+                    scales: { y: { ticks: { font: chartFont } }, x: { title: { display: true, text: '배출량 (kgCO₂e)', font: chartFont }, ticks: { font: chartFont } } }
+                }
+            });
+
+            // --- GREENFOOT CHARTS ---
+            const vibrantPalette = { green: '#00A6A6', orange: '#F28F3B', red: '#E03616', blue: '#3B82F6', light: '#F2F2F2' };
+            const greenfootDoughnutOptions = {
+                ...defaultChartOptions,
+                plugins: {
+                    ...defaultChartOptions.plugins,
+                    datalabels: {
+                        formatter: (value) => value > 4 ? value.toFixed(1) + '%' : '',
+                        color: '#fff', font: { weight: 'bold', size: 14 }
+                    }
+                }
+            };
+
+            new Chart(document.getElementById('greenfootTransportModePieChart').getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['대중교통', '자가용', '자전거', '친환경차'],
+                    datasets: [{ data: [67.4, 27.0, 4.6, 1.0], backgroundColor: [vibrantPalette.green, vibrantPalette.red, vibrantPalette.blue, vibrantPalette.orange], borderColor: vibrantPalette.light, borderWidth: 2 }]
+                },
+                options: greenfootDoughnutOptions
+            });
+
+            new Chart(document.getElementById('greenfootCarbonFootprintPieChart').getContext('2d'), {
+                type: 'pie',
+                data: {
+                    labels: ['자가용', '대중교통', '친환경차'],
+                    datasets: [{ data: [68.2, 31.5, 0.3], backgroundColor: [vibrantPalette.red, vibrantPalette.green, vibrantPalette.orange], borderColor: vibrantPalette.light, borderWidth: 2 }]
+                },
+                options: greenfootDoughnutOptions
+            });
+
+            new Chart(document.getElementById('greenfootEfficiencyBarChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['자가용', '대중교통', '친환경차', '자전거'],
+                    datasets: [
+                        { label: '평균 왕복 거리 (km)', data: [75.9, 58.4, 28.5, 6.8], backgroundColor: vibrantPalette.orange, yAxisID: 'y' },
+                        { label: '평균 왕복 탄소 배출량 (kgCO₂e)', data: [13.31, 4.02, 4.27, 0], backgroundColor: vibrantPalette.red, yAxisID: 'y1' }
+                    ]
+                },
+                options: {
+                    ...defaultChartOptions,
+                    plugins: {
+                        ...defaultChartOptions.plugins,
+                        datalabels: { anchor: 'end', align: 'top', formatter: (v) => v.toFixed(2), color: '#333' }
+                    },
+                    scales: {
+                        y: { type: 'linear', display: true, position: 'left', title: { display: true, text: '거리 (km)', font: chartFont }, ticks: { font: chartFont } },
+                        y1: { type: 'linear', display: true, position: 'right', title: { display: true, text: '탄소 배출량 (kg)', font: chartFont }, grid: { drawOnChartArea: false }, ticks: { font: chartFont } }
+                    }
+                }
+            });
+
+            new Chart(document.getElementById('greenfootRegionParticipantsChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['서울', '경기', '인천', '충청', '강원', '경상', '기타'],
+                    datasets: [{ label: '이동 기록 건수', data: [186, 84, 28, 5, 3, 2, 42], backgroundColor: vibrantPalette.green }]
+                },
+                options: {
+                    ...defaultChartOptions,
+                    plugins: { ...defaultChartOptions.plugins, legend: { display: false }, datalabels: { anchor: 'end', align: 'top', formatter: Math.round, color: '#333' } },
+                    scales: { x: { ticks: { font: { size: 11 } } } }
+                }
+            });
+
+            new Chart(document.getElementById('greenfootRegionCarbonChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['강원', '경상', '충청', '경기', '인천', '서울'],
+                    datasets: [{ label: '1회 왕복 평균 탄소 배출량 (kgCO₂e)', data: [34.14, 31.8, 25.8, 6.2, 5.0, 4.21], backgroundColor: vibrantPalette.red }]
+                },
+                options: {
+                    ...defaultChartOptions, indexAxis: 'y',
+                    plugins: {
+                        ...defaultChartOptions.plugins, legend: { display: false },
+                        datalabels: { anchor: 'end', align: 'end', formatter: (v) => v.toFixed(2), color: '#fff', font: { weight: 'bold' } }
+                    },
+                    scales: { x: { ticks: { font: { size: 11 } } } }
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

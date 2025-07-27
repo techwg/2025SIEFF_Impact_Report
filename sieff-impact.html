@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIEFF 임팩트 | SIEFF 지속가능성 리포트</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Noto+Sans+KR:wght@400;700;900&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', 'Inter', sans-serif;
+        }
+
+        .font-en {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .card-hover-effect {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card-hover-effect:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .bg-hero-impact {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?q=80&w=2070&auto=format&fit=crop');
+        }
+    </style>
+</head>
+
+<body class="bg-white text-gray-700">
+
+    <!-- Header -->
+    <header class="bg-white/90 backdrop-blur-lg shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-xl font-bold text-emerald-700 font-en">SIEFF x Korea Green Fund</a>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="index.html" class="text-gray-600 hover:text-emerald-600">홈</a>
+                <a href="global-research.html" class="text-gray-600 hover:text-emerald-600">글로벌 동향</a>
+                <a href="sieff-impact.html" class="text-emerald-600 font-bold">SIEFF 임팩트</a>
+                <a href="guidelines.html" class="text-gray-600 hover:text-emerald-600">실행 가이드</a>
+                <a href="vision-2030.html" class="text-gray-600 hover:text-emerald-600">2030 비전</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-hero-impact bg-cover bg-center flex items-center justify-center h-64 text-white">
+        <div class="text-center px-6">
+            <h1 class="text-4xl md:text-5xl font-black mt-2 mb-2 leading-tight">SIEFF 임팩트</h1>
+            <p class="text-lg md:text-xl text-emerald-300 font-bold">데이터로 증명하는 SIEFF의 성과</p>
+        </div>
+    </section>
+
+    <main class="container mx-auto px-6 py-16">
+        <section class="text-center mb-16">
+            <h1 class="text-5xl font-black text-gray-900">데이터로 증명하는 2025년 SIEFF의 성과</h1>
+            <p class="mt-4 text-lg text-gray-600">우리의 약속은 구호에 그치지 않습니다. 투명한 데이터와 심층적인 분석을 통해 2025년의 성과를 투명하게 공개합니다.
+            </p>
+        </section>
+
+        <!-- 2025년 SIEFF 핵심 성과 요약 -->
+        <section class="mb-20">
+            <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="text-4xl font-black text-gray-900 mb-4">
+                            2025년 제22회<br>
+                            <span class="text-emerald-600">서울국제환경영화제</span>
+                        </h2>
+                        <p class="text-lg text-gray-600 mb-8">총 1,476,940명이 참여한 지속가능한 영화제</p>
+
+                        <div class="grid grid-cols-3 gap-6 mb-8">
+                            <div class="text-center">
+                                <div class="text-3xl font-black text-emerald-600">195.16</div>
+                                <div class="text-sm text-gray-600">톤 CO₂ 총 배출량</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-black text-blue-600">3.16</div>
+                                <div class="text-sm text-gray-600">kg CO₂ 1인당 배출량</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-black text-orange-600">1.48M</div>
+                                <div class="text-sm text-gray-600">총 참가자 수</div>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                            <h3 class="font-bold text-gray-900 mb-2">주요 성과</h3>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>• 온라인 참여율 96% 달성 (하이브리드 모델)</li>
+                                <li>• 국내 영화제 중 최저 1인당 탄소발자국</li>
+                                <li>• 전년(2024) 대비 탄소배출량 418% 증가했으나 효율성 크게 개선</li>
+                            </ul>
+                        </div>
+
+
+                    </div>
+
+                    <div class="flex justify-center">
+                        <div class="relative w-80 h-80">
+                            <canvas id="sieffImpactChart" width="320" height="320"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 부문별 상세 분석 -->
+        <section class="mb-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900">부문별 탄소배출량 분석</h2>
+                <p class="mt-4 text-lg text-gray-600">2025년 SIEFF 탄소발자국의 구성 요소별 상세 분석</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 mb-12">
+                <div class="bg-white p-8 rounded-xl shadow-lg border-l-4 border-orange-500">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-gray-900">여행 및 교통</h3>
+                        <div class="text-orange-500 font-bold text-2xl">93%</div>
+                    </div>
+                    <div class="space-y-2 text-sm text-gray-600">
+                        <div class="flex justify-between">
+                            <span>총 배출량</span>
+                            <span class="font-bold">181,921 kgCO₂</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>해외 방문자</span>
+                            <span>9명 (37,178 kg)</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>국내 방문자</span>
+                            <span>57,491명 (144,651 kg)</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>물류 이동</span>
+                            <span>92 kg</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-lg border-l-4 border-blue-500">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-gray-900">에너지</h3>
+                        <div class="text-blue-500 font-bold text-2xl">6%</div>
+                    </div>
+                    <div class="space-y-2 text-sm text-gray-600">
+                        <div class="flex justify-between">
+                            <span>총 배출량</span>
+                            <span class="font-bold">11,011 kgCO₂</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>총 상영시간</span>
+                            <span>69,304시간 (415.8만분)</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>온라인 참가자</span>
+                            <span>1,419,449명</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-lg border-l-4 border-green-500">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-gray-900">음식 및 음료</h3>
+                        <div class="text-green-500 font-bold text-2xl">1%</div>
+                    </div>
+                    <div class="space-y-2 text-sm text-gray-600">
+                        <div class="flex justify-between">
+                            <span>총 배출량</span>
+                            <span class="font-bold">2,223 kgCO₂</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>총 이용 인원</span>
+                            <span>3,041명</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>1인당 배출량</span>
+                            <span>0.73 kgCO₂</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 하이브리드 모델 효과 -->
+        <section class="mb-20">
+            <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">하이브리드 모델 효과</h2>
+                <p class="text-center text-lg text-gray-600 mb-12">오프라인 vs 온라인 참여 방식의 효율성 비교</p>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- 참가자 규모 비교 -->
+                    <div class="text-center">
+                        <h3 class="text-xl font-bold text-gray-900 mb-6">참가자 규모</h3>
+                        <div class="relative h-64 mb-4">
+                            <canvas id="participantChart"></canvas>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div class="bg-red-50 p-3 rounded">
+                                <div class="font-bold text-red-700">오프라인</div>
+                                <div class="text-xs">57,491명 (4%)</div>
+                            </div>
+                            <div class="bg-green-50 p-3 rounded">
+                                <div class="font-bold text-green-700">온라인</div>
+                                <div class="text-xs">1,419,449명 (96%)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 1인당 탄소배출량 비교 -->
+                    <div class="text-center">
+                        <h3 class="text-xl font-bold text-gray-900 mb-6">1인당 탄소배출량</h3>
+                        <div class="relative h-64 mb-4">
+                            <canvas id="emissionChart"></canvas>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div class="bg-red-50 p-3 rounded">
+                                <div class="font-bold text-red-700">오프라인</div>
+                                <div class="text-xs">191.54 gCO₂</div>
+                            </div>
+                            <div class="bg-green-50 p-3 rounded">
+                                <div class="font-bold text-green-700">온라인</div>
+                                <div class="text-xs">7.75 gCO₂</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 총 상영시간 비교 -->
+                    <div class="text-center">
+                        <h3 class="text-xl font-bold text-gray-900 mb-6">총 상영시간</h3>
+                        <div class="relative h-64 mb-4">
+                            <canvas id="screeningChart"></canvas>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div class="bg-red-50 p-3 rounded">
+                                <div class="font-bold text-red-700">오프라인</div>
+                                <div class="text-xs">111시간 (6,655분)</div>
+                                <div class="text-xs text-gray-500">(0.16%)</div>
+                            </div>
+                            <div class="bg-green-50 p-3 rounded">
+                                <div class="font-bold text-green-700">온라인</div>
+                                <div class="text-xs">69,193시간 (4,151,602분)</div>
+                                <div class="text-xs text-gray-500">(99.84%)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 text-center">
+                <div class="bg-emerald-100 text-emerald-800 px-6 py-3 rounded-full text-lg font-bold inline-block">
+                    💡 온라인 참여율 96%를 통해 대폭적인 탄소효율성 개선을 달성했습니다
+                </div>
+            </div>
+            </div>
+        </section>
+
+        <!-- SIEFF 리포트 -->
+        <section class="mb-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900">SIEFF 지속가능성 분석 리포트</h2>
+                <p class="mt-4 text-lg text-gray-600">투명한 데이터와 과학적 방법론으로 검증된 탄소발자국 분석</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <div class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mb-6">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2">
+                            <path d="M9 12l2 2 4-4" />
+                            <circle cx="12" cy="12" r="10" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">GHG Protocol 기준 측정</h3>
+                    <p class="text-gray-600 mb-4">국제 표준인 GHG Protocol을 준수하여 Scope 1, 2, 3로 구분한 정확한 탄소배출량 측정. 전체 배출량의
+                        93%가 Scope 3(간접배출)에 해당합니다.</p>
+                    <div class="text-sm text-emerald-600 font-bold">✓ 국제 표준 준수</div>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2">
+                            <path d="M3 3v18h18" />
+                            <path d="m19 9-5 5-4-4-3 3" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">하이브리드 모델 혁신</h3>
+                    <p class="text-gray-600 mb-4">온라인 참여율 96%를 달성하여 대규모 영화제임에도 불구하고 효율적인 탄소발자국을 실현. 온라인 참가자 1인당
+                        7.75gCO₂로 매우 낮은 배출량을 기록했습니다.</p>
+                    <div class="text-sm text-blue-600 font-bold">✓ 96% 온라인 참여율</div>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-6">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F97316" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                            <path d="M2 17l10 5 10-5" />
+                            <path d="M2 12l10 5 10-5" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">그린풋 탄소발자국 계산기</h3>
+                    <p class="text-gray-600 mb-4">SIEFF가 자체 개발한 탄소발자국 계산기 '그린풋'을 통해 265명의 참가자가 자발적으로 이동 배출량 데이터를 제공. 실제
+                        참가자 행동 패턴을 기반으로 한 정확한 측정을 실현했습니다.</p>
+                    <div class="text-sm text-orange-600 font-bold">✓ 265명 자발적 참여</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 국제 벤치마킹 -->
+        <section class="mb-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900">SIEFF vs 세계 주요 영화제</h2>
+                <p class="mt-4 text-lg text-gray-600">참가자 1명당 탄소배출량 비교 - 숫자가 낮을수록 친환경적입니다</p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+                <div class="grid md:grid-cols-4 gap-8">
+                    <!-- SIEFF 2025 -->
+                    <div class="bg-emerald-50 border-2 border-emerald-200 rounded-xl p-6 text-center">
+                        <div
+                            class="w-16 h-16 bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-white font-bold text-2xl">🏆</span>
+                        </div>
+                        <h4 class="font-bold text-emerald-700 text-lg mb-2">SIEFF 2025</h4>
+                        <div class="text-3xl font-black text-emerald-600 mb-2">3.16<span class="text-lg">kg</span></div>
+                        <div class="text-sm text-emerald-600 mb-3">하이브리드 모델</div>
+                        <div class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-xs font-bold">
+                            세계 최저 수준
+                        </div>
+                    </div>
+
+                    <!-- 칸 영화제 -->
+                    <div class="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-6 text-center">
+                        <div class="w-16 h-16 bg-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-white font-bold text-2xl">🎬</span>
+                        </div>
+                        <h4 class="font-bold text-yellow-700 text-lg mb-2">칸 영화제</h4>
+                        <div class="text-3xl font-black text-yellow-600 mb-2">~18<span class="text-lg">kg</span></div>
+                        <div class="text-sm text-yellow-600 mb-3">세계 최대 규모</div>
+                        <div class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-bold">
+                            SIEFF의 5.7배
+                        </div>
+                    </div>
+
+                    <!-- 베니스 영화제 -->
+                    <div class="bg-purple-50 border-2 border-purple-200 rounded-xl p-6 text-center">
+                        <div class="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-white font-bold text-2xl">🎭</span>
+                        </div>
+                        <h4 class="font-bold text-purple-700 text-lg mb-2">베니스 영화제</h4>
+                        <div class="text-3xl font-black text-purple-600 mb-2">~15<span class="text-lg">kg</span></div>
+                        <div class="text-sm text-purple-600 mb-3">탄소중립 인증</div>
+                        <div class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-xs font-bold">
+                            SIEFF의 4.7배
+                        </div>
+                    </div>
+
+                    <!-- 일반 국제 영화제 -->
+                    <div class="bg-gray-50 border-2 border-gray-200 rounded-xl p-6 text-center">
+                        <div class="w-16 h-16 bg-gray-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-white font-bold text-2xl">🌍</span>
+                        </div>
+                        <h4 class="font-bold text-gray-700 text-lg mb-2">일반 국제영화제</h4>
+                        <div class="text-3xl font-black text-gray-600 mb-2">10-25<span class="text-lg">kg</span></div>
+                        <div class="text-sm text-gray-600 mb-3">평균 범위</div>
+                        <div class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-xs font-bold">
+                            SIEFF의 3-8배
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 text-center">
+                    <div class="bg-emerald-100 text-emerald-800 px-6 py-3 rounded-full text-lg font-bold inline-block">
+                        🏆 SIEFF는 148만명 참가자 규모임에도 하이브리드 모델을 통해 온라인 참여율을 높여 세계 최저 수준의 탄소효율성을 달성했습니다
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SIEFF 리포트 -->
+        <section class="mb-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900">SIEFF 리포트</h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div
+                    class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100">
+                    <div class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mb-6">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2">
+                            <path d="M9 12l2 2 4-4" />
+                            <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3" />
+                            <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3" />
+                            <path d="M12 3c0 1-1 3-3 3s-3-2-3-3 1-3 3-3 3 2 3 3" />
+                            <path d="M12 21c0-1-1-3-3-3s-3 2-3 3 1 3 3 3 3-2 3-3" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">종합 임팩트 리포트</h3>
+                    <p class="text-gray-600 mb-6">탄소 배출량, 1인당 배출량, 시민 참여 데이터 등 핵심 성과를 인터랙티브 차트와 함께 심층적으로 분석합니다.</p>
+                    <a href="impact-report.html"
+                        class="inline-block w-full bg-emerald-600 text-white text-center py-3 px-4 rounded-lg font-bold hover:bg-emerald-700 transition-colors duration-200">자세히
+                        보기</a>
+                </div>
+
+                <div
+                    class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100">
+                    <div class="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center mb-6">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2">
+                            <path
+                                d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                            <polyline points="7.5,4.21 12,6.81 16.5,4.21" />
+                            <polyline points="7.5,19.79 7.5,14.6 3,12" />
+                            <polyline points="21,12 16.5,14.6 16.5,19.79" />
+                            <polyline points="3.27,6.96 12,12.01 20.73,6.96" />
+                            <line x1="12" y1="22.08" x2="12" y2="12" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">물질흐름분석 (MFA) 리포트</h3>
+                    <p class="text-gray-600 mb-6">투입된 자원이 어떤 과정을 거쳐 환경적 영향으로 이어지는지, 그 흐름을 한눈에 파악할 수 있는 생키 다이어그램으로
+                        시각화했습니다.</p>
+                    <a href="mfa-report.html"
+                        class="inline-block w-full bg-slate-600 text-white text-center py-3 px-4 rounded-lg font-bold hover:bg-slate-700 transition-colors duration-200">자세히
+                        보기</a>
+                </div>
+
+                <div
+                    class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100">
+                    <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-6">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">2030 넷제로 전략</h3>
+                    <p class="text-gray-600 mb-6">2030년까지 완전한 탄소중립을 달성하기 위한 체계적인 로드맵과 실행 계획을 제시합니다.</p>
+                    <a href="vision-2030.html"
+                        class="inline-block w-full bg-orange-600 text-white text-center py-3 px-4 rounded-lg font-bold hover:bg-orange-700 transition-colors duration-200">자세히
+                        보기</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Chart.js 로딩 확인 및 차트 초기화
+        function initCharts() {
+            console.log('Chart.js available:', typeof Chart !== 'undefined');
+
+            // SIEFF 임팩트 차트
+            const impactCtx = document.getElementById('sieffImpactChart');
+            console.log('Impact chart canvas found:', !!impactCtx);
+
+            if (impactCtx && typeof Chart !== 'undefined') {
+                try {
+                    new Chart(impactCtx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['여행/교통', '에너지', '음식/음료'],
+                            datasets: [{
+                                data: [181.921, 11.011, 2.223],
+                                backgroundColor: [
+                                    '#F97316',
+                                    '#3B82F6',
+                                    '#10B981'
+                                ],
+                                borderWidth: 0,
+                                hoverOffset: 8
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: 'SIEFF 2025 탄소발자국 구성',
+                                    font: { family: 'Noto Sans KR', size: 16, weight: '600' },
+                                    color: '#374151',
+                                    padding: 20
+                                },
+                                legend: {
+                                    position: 'bottom',
+                                    labels: {
+                                        font: { family: 'Noto Sans KR', size: 11 },
+                                        usePointStyle: true,
+                                        padding: 15,
+                                        generateLabels: function (chart) {
+                                            const data = chart.data;
+                                            const total = data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                            return data.labels.map((label, i) => {
+                                                const value = data.datasets[0].data[i];
+                                                const percentage = ((value / total) * 100).toFixed(0);
+                                                return {
+                                                    text: `${label} (${value.toFixed(1)}톤, ${percentage}%)`,
+                                                    fillStyle: data.datasets[0].backgroundColor[i],
+                                                    strokeStyle: data.datasets[0].backgroundColor[i],
+                                                    pointStyle: 'circle',
+                                                    hidden: false,
+                                                    index: i
+                                                };
+                                            });
+                                        }
+                                    }
+                                }
+                            },
+                            cutout: '60%'
+                        }
+                    });
+                    console.log('Impact chart created successfully');
+                } catch (error) {
+                    console.error('Error creating impact chart:', error);
+                }
+            }
+
+            // 참가자 규모 차트
+            const participantCtx = document.getElementById('participantChart');
+            if (participantCtx && typeof Chart !== 'undefined') {
+                try {
+                    new Chart(participantCtx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['오프라인', '온라인'],
+                            datasets: [{
+                                data: [57491, 1419449],
+                                backgroundColor: ['#EF4444', '#10B981'],
+                                borderWidth: 0,
+                                hoverOffset: 8
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function (context) {
+                                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                            const percentage = ((context.parsed / total) * 100).toFixed(1);
+                                            return `${context.label}: ${context.parsed.toLocaleString()}명 (${percentage}%)`;
+                                        }
+                                    }
+                                }
+                            },
+                            cutout: '60%'
+                        }
+                    });
+                } catch (error) {
+                    console.error('Error creating participant chart:', error);
+                }
+            }
+
+            // 1인당 탄소배출량 차트
+            const emissionCtx = document.getElementById('emissionChart');
+            if (emissionCtx && typeof Chart !== 'undefined') {
+                try {
+                    new Chart(emissionCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['오프라인', '온라인'],
+                            datasets: [{
+                                data: [191.54, 7.75],
+                                backgroundColor: ['#EF4444', '#10B981'],
+                                borderRadius: 6
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function (context) {
+                                            return `${context.label}: ${context.parsed.y} gCO₂`;
+                                        }
+                                    }
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: 'gCO₂',
+                                        font: { family: 'Noto Sans KR', size: 10 }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                } catch (error) {
+                    console.error('Error creating emission chart:', error);
+                }
+            }
+
+            // 총 상영시간 차트
+            const screeningCtx = document.getElementById('screeningChart');
+            if (screeningCtx && typeof Chart !== 'undefined') {
+                try {
+                    new Chart(screeningCtx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['오프라인', '온라인'],
+                            datasets: [{
+                                data: [6655, 4151602],
+                                backgroundColor: ['#EF4444', '#10B981'],
+                                borderWidth: 0,
+                                hoverOffset: 8
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function (context) {
+                                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                            const percentage = ((context.parsed / total) * 100).toFixed(2);
+                                            const hours = Math.round(context.parsed / 60);
+                                            return `${context.label}: ${hours.toLocaleString()}시간 (${context.parsed.toLocaleString()}분, ${percentage}%)`;
+                                        }
+                                    }
+                                }
+                            },
+                            cutout: '60%'
+                        }
+                    });
+                } catch (error) {
+                    console.error('Error creating screening chart:', error);
+                }
+            }
+        }
+
+        // DOM 로드 후 차트 초기화
+        document.addEventListener('DOMContentLoaded', function () {
+            // Chart.js 로딩 대기
+            if (typeof Chart !== 'undefined') {
+                setTimeout(initCharts, 500);
+            } else {
+                // Chart.js가 로드되지 않은 경우 재시도
+                let retryCount = 0;
+                const checkChart = setInterval(() => {
+                    if (typeof Chart !== 'undefined' || retryCount > 10) {
+                        clearInterval(checkChart);
+                        if (typeof Chart !== 'undefined') {
+                            setTimeout(initCharts, 500);
+                        } else {
+                            console.error('Chart.js failed to load');
+                        }
+                    }
+                    retryCount++;
+                }, 100);
+            }
+        });
+    </script>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white mt-24">
+        <div class="container mx-auto px-6 py-12 text-center">
+            <p class="font-bold text-lg">Korea Green Fund</p>
+            <p class="mt-2 text-gray-400">주최: (재)환경재단</p>
+            <p class="mt-4 text-sm text-gray-500">© 2025 Seoul International Eco Film Festival. All Rights Reserved.본
+                페이지는 2025년 SIEFF 지속가능성 임팩트 리포트의 내용을 시각화한 인터랙티브 웹 애플리케이션입니다.</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

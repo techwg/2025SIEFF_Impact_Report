@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>제22회 서울국제환경영화제 | SIEFF 물질흐름분석</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Plotly.js for the chart -->
+    <script src="https://cdn.plot.ly/plotly-2.32.0.min.js" charset="utf-8"></script>
+    <!-- Google Fonts for better typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+
+
+        /* Responsive container for the chart */
+        .sankey-container {
+            width: 100%;
+            height: auto;
+            min-height: 1400px;
+        }
+
+        @media (min-width: 1024px) {
+            .sankey-container {
+                height: 180vh;
+                min-height: 1600px;
+            }
+        }
+    </style>
+</head>
+
+<body class="text-gray-800 bg-slate-50">
+
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-emerald-700">SIEFF 2025 Impact Hub</a>
+            <div class="hidden md:flex space-x-6">
+                <a href="sieff-impact.html" class="text-gray-600 hover:text-emerald-600">SIEFF 임팩트</a>
+                <a href="impact-report.html" class="text-gray-600 hover:text-emerald-600">임팩트 리포트</a>
+                <a href="mfa-report.html" class="text-emerald-600 font-bold">물질흐름분석</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="text-center mb-24">
+        <div class="text-5xl md:text-6xl font-extrabold text-emerald-900 mb-6">제22회 서울국제환경영화제</div>
+        <h1 class="text-4xl md:text-5xl font-bold text-emerald-800 mb-4">물질흐름분석(MFA) 리포트</h1>
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+            영화제 운영에 투입된 자원부터 환경적 영향까지, 전체 물질 흐름을 체계적으로 분석합니다.
+        </p>
+    </section>
+
+    <div class="container mx-auto px-6 py-16">
+        <!-- Added Section: Key Metrics Infographic -->
+        <section class="mb-16">
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 text-center">
+                <div class="bg-white p-4 rounded-2xl shadow-md">
+                    <p class="text-4xl font-bold text-emerald-600">195.16<span class="text-xl ml-1">톤</span></p>
+                    <p class="text-sm text-gray-500 mt-2">총 CO₂ 배출량</p>
+                </div>
+                <div class="bg-white p-4 rounded-2xl shadow-md">
+                    <p class="text-4xl font-bold text-emerald-600">57,491<span class="text-xl ml-1">명</span></p>
+                    <p class="text-sm text-gray-500 mt-2">국내 참가자 수</p>
+                </div>
+                <div class="bg-white p-4 rounded-2xl shadow-md">
+                    <p class="text-4xl font-bold text-emerald-600">9<span class="text-xl ml-1">명</span></p>
+                    <p class="text-sm text-gray-500 mt-2">해외 게스트 수</p>
+                </div>
+                <div class="bg-white p-4 rounded-2xl shadow-md">
+                    <p class="text-4xl font-bold text-emerald-600">265<span class="text-xl ml-1">명</span></p>
+                    <p class="text-sm text-gray-500 mt-2">그린풋 자발 참여자</p>
+                </div>
+                <div class="bg-white p-4 rounded-2xl shadow-md">
+                    <p class="text-4xl font-bold text-emerald-600">307<span class="text-xl ml-1">건</span></p>
+                    <p class="text-sm text-gray-500 mt-2">실제 이동 기록 건수</p>
+                </div>
+                <div class="bg-white p-4 rounded-2xl shadow-md">
+                    <p class="text-4xl font-bold text-emerald-600">300<span class="text-xl ml-1">+</span></p>
+                    <p class="text-sm text-gray-500 mt-2">렌탈 물품 총 개수</p>
+                </div>
+            </div>
+        </section>
+
+        <main>
+            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
+                영화제 운영에 투입된 자원(Inbound)을 세분화하고, 각 자원이 어떤 행사(Process)를 거쳐 환경적 영향(Outbound)으로 이어지는지 그 흐름을 한눈에 살펴보세요. 차트에
+                마우스를 올리면 상세 데이터를 확인할 수 있습니다.
+            </p>
+            <div class="bg-white rounded-2xl shadow-lg p-4 md:p-6">
+                <div id="sankey-chart" class="sankey-container"></div>
+            </div>
+
+            <section class="mt-12">
+                <h3 class="text-3xl font-bold text-center text-gray-800 mb-8">주요 분석 결과 (Key Insights)</h3>
+                <div id="insights" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Insights will be dynamically generated by script -->
+                </div>
+            </section>
+
+            <!-- Added Section: GreenFoot Citizen Participation -->
+            <section class="mt-16">
+                <h3 class="text-3xl font-bold text-center text-emerald-800 mb-4">그린풋(GreenFoot) 시민참여 혁신</h3>
+                <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
+                    탄소발자국 계산기 '그린풋'을 통해 영화제 참가자들이 직접 자신의 이동 데이터를 입력하고 탄소발자국 상쇄에 자발적으로 동의한 소중한 시민참여 기록입니다.
+                </p>
+                <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-6 text-center mb-10 border-b pb-10">
+                        <div>
+                            <p class="text-5xl font-bold text-emerald-600">265<span class="text-2xl">명</span></p>
+                            <p class="text-sm text-gray-500 mt-2">자발적 참여자</p>
+                        </div>
+                        <div>
+                            <p class="text-5xl font-bold text-emerald-600">1,950<span class="text-2xl">kg</span></p>
+                            <p class="text-sm text-gray-500 mt-2">총 기록된 배출량</p>
+                        </div>
+                        <div>
+                            <p class="text-5xl font-bold text-emerald-600">7.36<span class="text-2xl">kg</span></p>
+                            <p class="text-sm text-gray-500 mt-2">1인당 평균 배출량</p>
+                        </div>
+                        <div>
+                            <p class="text-5xl font-bold text-emerald-600">68.2<span class="text-2xl">%</span></p>
+                            <p class="text-sm text-gray-500 mt-2">자가용 배출 기여도</p>
+                        </div>
+                        <div>
+                            <p class="text-5xl font-bold text-emerald-600">0<span class="text-2xl">kg</span></p>
+                            <p class="text-sm text-gray-500 mt-2">자전거 완전무배출</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
+                        <div>
+                            <h4 class="font-bold text-xl mb-3 text-emerald-700">실제 참여자 이동패턴</h4>
+                            <ul class="space-y-2 text-gray-600">
+                                <li class="flex justify-between"><span>대중교통:</span> <strong>207건 (67.4%)</strong></li>
+                                <li class="flex justify-between"><span>자가용:</span> <strong>83건 (27.0%)</strong></li>
+                                <li class="flex justify-between"><span>자전거:</span> <strong>14건 (4.6%)</strong></li>
+                                <li class="flex justify-between"><span>친환경차:</span> <strong>3건 (1.0%)</strong></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-xl mb-3 text-emerald-700">지역별 참여현황</h4>
+                            <ul class="space-y-2 text-gray-600">
+                                <li class="flex justify-between"><span>서울:</span> <strong>185건 (60.6%)</strong></li>
+                                <li class="flex justify-between"><span>경기:</span> <strong>84건 (27.4%)</strong></li>
+                                <li class="flex justify-between"><span>인천:</span> <strong>28건 (9.1%)</strong></li>
+                                <li class="flex justify-between"><span>충청:</span> <strong>5건 (1.6%)</strong></li>
+                                <li class="flex justify-between"><span>기타:</span> <strong>4건 (1.3%)</strong></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-xl mb-3 text-emerald-700">교통수단별 탄소효율성</h4>
+                            <ul class="space-y-2 text-gray-600">
+                                <li class="flex justify-between"><span>자가용:</span> <strong>13.31 kgCO₂/회</strong></li>
+                                <li class="flex justify-between"><span>친환경차:</span> <strong>4.27 kgCO₂/회</strong></li>
+                                <li class="flex justify-between"><span>대중교통:</span> <strong>4.02 kgCO₂/회</strong></li>
+                                <li class="flex justify-between"><span>자전거:</span> <strong>0.0 kgCO₂/회</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Added Section: MFA Summary Table -->
+            <section class="mt-16">
+                <h3 class="text-3xl font-bold text-center text-gray-800 mb-8">물질흐름분석 주요 결과 요약</h3>
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                    <table class="w-full text-left">
+                        <thead class="bg-slate-100">
+                            <tr>
+                                <th class="p-4 font-bold text-slate-700">부문 (비중)</th>
+                                <th class="p-4 font-bold text-slate-700">총 배출량 (tCO₂)</th>
+                                <th class="p-4 font-bold text-slate-700">주요 배출원 및 감축 노력</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b">
+                                <td class="p-4 align-top">
+                                    <div class="flex items-center">
+                                        <span class="text-2xl mr-3">🚗</span>
+                                        <div>
+                                            <p class="font-bold text-lg">교통부문</p>
+                                            <p class="text-gray-500">(93.3%)</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="p-4 font-mono text-lg align-top">181.92</td>
+                                <td class="p-4 text-gray-600 align-top">
+                                    <ul class="list-disc list-inside space-y-1">
+                                        <li>국내 참가자 이동</li>
+                                        <li>해외 게스트 항공/숙박</li>
+                                        <li>물류 운송</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="p-4 align-top">
+                                    <div class="flex items-center">
+                                        <span class="text-2xl mr-3">⚡️</span>
+                                        <div>
+                                            <p class="font-bold text-lg">에너지부문</p>
+                                            <p class="text-gray-500">(5.6%)</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="p-4 font-mono text-lg align-top">11.01</td>
+                                <td class="p-4 text-gray-600 align-top">
+                                    <ul class="list-disc list-inside space-y-1">
+                                        <li>오프라인 상영관 전력</li>
+                                        <li>온라인 송출 데이터센터</li>
+                                        <li>송출 시간 증가</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 align-top">
+                                    <div class="flex items-center">
+                                        <span class="text-2xl mr-3">🍽️</span>
+                                        <div>
+                                            <p class="font-bold text-lg">음식부문</p>
+                                            <p class="text-gray-500">(1.1%)</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="p-4 font-mono text-lg align-top">2.22</td>
+                                <td class="p-4 text-gray-600 align-top">
+                                    <ul class="list-disc list-inside space-y-1">
+                                        <li>지속가능한 채식 메뉴 확대</li>
+                                        <li>저탄소 식단 도입</li>
+                                        <li>케이터링 최소화</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer class="bg-gray-800 text-white mt-24">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p class="font-bold text-lg">Korea Green Fund</p>
+            <p class="mt-4 text-sm text-gray-400">© 2025 Seoul International Eco Film Festival. All Rights Reserved.본
+                페이지는 2025년 SIEFF 지속가능성 임팩트 리포트의 내용을 시각화한 인터랙티브 웹 애플리케이션입니다.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- Data Calculation from Provided Files ---
+        // This section simulates reading the provided CSV data and calculating the values.
+
+        // 1. Travel Data (Domestic)
+        const domesticTravel = {
+            opening_car: 2246.13,
+            opening_transit: 577.9026 + 383.7456,
+            main_event_car: 6101.19 + 1103.37,
+            main_event_transit: 1569.7638 + 1042.3728 + 833.53 + 12.8,
+            side_events_car: 2049.66 + 81326.19 + 56.63 + 1448.3 + 209.1,
+            side_events_transit: (527.3532 + 350.1792) + (20924.2638 + 13894.3728) + (14.54 + 9.65) + (372.3 + 247.2) + (53.7 + 35.7)
+        };
+        const totalCar = domesticTravel.opening_car + domesticTravel.main_event_car + domesticTravel.side_events_car;
+        const totalTransit = domesticTravel.opening_transit + domesticTravel.main_event_transit + domesticTravel.side_events_transit;
+
+        // 2. Travel Data (International)
+        const intlTravel = {
+            flights: 36134,
+            accommodation: 1044
+        };
+        const totalIntl = intlTravel.flights + intlTravel.accommodation;
+
+        // 3. Logistics
+        const totalLogistics = 92;
+
+        // 4. Energy Data
+        const energy = {
+            offline_opening: 43.49,
+            offline_main_event: 251.64,
+            offline_side_events: 37.28 + 46.6 + 18.64 + 13.98 + 74.56 + 11.18 + 11.18 + 2.33 + 79.22,
+            online_screening: 10550.48,
+            online_school: 11.18,
+            online_sbs: 11.18,
+            online_btv: 2.33,
+            online_youtube: 79.22
+        };
+        const totalOfflineEnergy = energy.offline_opening + energy.offline_main_event + energy.offline_side_events;
+        const totalOnlineEnergy = energy.online_screening + energy.online_school + energy.online_sbs + energy.online_btv + energy.online_youtube;
+
+        // 5. Food & Drink Data
+        const food = {
+            opening_general: 807.0,
+            opening_low_carbon: 24.36 + 416.0,
+            main_event_general: 952.26,
+            main_event_low_carbon: 10.0,
+            side_events_low_carbon: 8.12 + 4.8
+        };
+        const totalGeneralFood = food.opening_general + food.main_event_general;
+        const totalLowCarbonFood = food.opening_low_carbon + food.main_event_low_carbon + food.side_events_low_carbon;
+
+        // 6. Resources (Qualitative placeholder values)
+        const resources = {
+            opening: 250,
+            main_event: 250,
+            side_events: 500,
+            total: 1000
+        };
+
+        // --- Calculate Process Totals ---
+        const processTotals = {
+            opening: (totalIntl / 2) + domesticTravel.opening_car + domesticTravel.opening_transit + energy.offline_opening + food.opening_general + food.opening_low_carbon,
+            main_event: (totalIntl / 2) + domesticTravel.main_event_car + domesticTravel.main_event_transit + energy.offline_main_event + food.main_event_general + food.main_event_low_carbon,
+            side_events: domesticTravel.side_events_car + domesticTravel.side_events_transit + totalLogistics + energy.offline_side_events + food.side_events_low_carbon,
+            online: totalOnlineEnergy
+        };
+
+        // --- Calculate Outbound Details ---
+        const outboundDetails = {
+            transport: totalIntl + totalCar + totalTransit + totalLogistics,
+            energy: totalOfflineEnergy + totalOnlineEnergy,
+            food: totalGeneralFood + totalLowCarbonFood
+        };
+        const totalGHG = outboundDetails.transport + outboundDetails.energy + outboundDetails.food;
+
+        // --- Sankey Diagram Configuration ---
+        const data = {
+            nodes: [
+                // Level 0: Inbound Sources (0-12)
+                { name: '✈️ 항공/숙박 (해외) (9명)' },             // 0
+                { name: `🚗 자가용 (국내) (24,063명)` },          // 1
+                { name: `🚌 대중교통 (국내) (33,635명)` },      // 2
+                { name: `🚚 물류/장비 (14건)` },                 // 3
+                { name: '💡 오프라인 행사 (에너지)' },         // 4
+                { name: '🍽️ 일반 식단 (케이터링 150인분)' },   // 5
+                { name: '🥗 채식/저탄소 식단 (2,634개)' },       // 6
+                { name: '♻️ 자원/물품' },                       // 7
+                { name: '온라인상영관 (415,825명)' },           // 8
+                { name: '학교내 교육 (1,500명)' },              // 9
+                { name: 'SBS (1,000명)' },                      // 10
+                { name: 'Btv (1,000명)' },                      // 11
+                { name: '유튜브 (1,000명)' },                   // 12
+
+                // Level 1: Process (13-16)
+                { name: '개막식' },                         // 13
+                { name: '본 행사 (오프라인 상영)' },         // 14
+                { name: '부대행사 및 지방상영' },           // 15
+                { name: '온라인 상영' },                    // 16
+
+                // Level 2: Outbound Main Categories (17-18)
+                { name: `🔥 온실가스 배출 (195,155 kgCO₂e)` }, // 17
+                { name: '🔄 자원 순환' },                     // 18
+
+                // Level 3: Outbound Details (19-23)
+                { name: `여행/교통 부문 배출 (181,921 kgCO₂e)` }, // 19
+                { name: `에너지 부문 배출<br>(${outboundDetails.energy.toLocaleString('ko-KR', { maximumFractionDigits: 0 })} kgCO₂e)` }, // 20
+                { name: `식음료 부문 배출<br>(${outboundDetails.food.toLocaleString('ko-KR', { maximumFractionDigits: 0 })} kgCO₂e)` }, // 21
+                { name: '재사용/렌탈 물품' },                 // 22
+                { name: '재활용 폐기물' }                      // 23
+            ],
+            links: [
+                // --- INBOUND TO PROCESS ---
+                // Travel -> Events
+                { source: 0, target: 13, value: totalIntl / 2, label: '해외 게스트 (개막식)' },
+                { source: 0, target: 14, value: totalIntl / 2, label: '해외 게스트 (본행사)' },
+                { source: 1, target: 13, value: domesticTravel.opening_car, label: '개막식 자가용' },
+                { source: 2, target: 13, value: domesticTravel.opening_transit, label: '개막식 대중교통' },
+                { source: 1, target: 14, value: domesticTravel.main_event_car, label: '본행사 자가용' },
+                { source: 2, target: 14, value: domesticTravel.main_event_transit, label: '본행사 대중교통' },
+                { source: 1, target: 15, value: domesticTravel.side_events_car, label: '부대행사 자가용' },
+                { source: 2, target: 15, value: domesticTravel.side_events_transit, label: '부대행사 대중교통' },
+                { source: 3, target: 15, value: totalLogistics, label: '물류' },
+
+                // Energy (Offline) -> Events
+                { source: 4, target: 13, value: energy.offline_opening, label: '개막식 에너지' },
+                { source: 4, target: 14, value: energy.offline_main_event, label: '본행사 에너지' },
+                { source: 4, target: 15, value: energy.offline_side_events, label: '부대행사 에너지' },
+
+                // Energy (Online) -> Online Process
+                { source: 8, target: 16, value: energy.online_screening, label: '온라인상영관 에너지' },
+                { source: 9, target: 16, value: energy.online_school, label: '학교교육 에너지' },
+                { source: 10, target: 16, value: energy.online_sbs, label: 'SBS 에너지' },
+                { source: 11, target: 16, value: energy.online_btv, label: 'Btv 에너지' },
+                { source: 12, target: 16, value: energy.online_youtube, label: '유튜브 에너지' },
+
+                // Food & Drink -> Events
+                { source: 5, target: 13, value: food.opening_general, label: '개막식 케이터링' },
+                { source: 6, target: 13, value: food.opening_low_carbon, label: '개막식 저탄소' },
+                { source: 5, target: 14, value: food.main_event_general, label: '본행사 스탭식사' },
+                { source: 6, target: 14, value: food.main_event_low_carbon, label: '본행사 저탄소' },
+                { source: 6, target: 15, value: food.side_events_low_carbon, label: '부대행사 저탄소' },
+
+                // Resources -> Events (Qualitative)
+                { source: 7, target: 13, value: resources.opening, label: '자원' },
+                { source: 7, target: 14, value: resources.main_event, label: '자원' },
+                { source: 7, target: 15, value: resources.side_events, label: '자원' },
+
+                // --- PROCESS TO OUTBOUND ---
+                // Events -> GHG Emissions
+                { source: 13, target: 17, value: processTotals.opening, label: '개막식 총 배출' },
+                { source: 14, target: 17, value: processTotals.main_event, label: '본 행사 총 배출' },
+                { source: 15, target: 17, value: processTotals.side_events, label: '부대행사 총 배출' },
+                { source: 16, target: 17, value: processTotals.online, label: '온라인 상영 총 배출' },
+
+                // Events -> Circularity (Qualitative)
+                { source: 13, target: 18, value: resources.opening, label: '자원' },
+                { source: 14, target: 18, value: resources.main_event, label: '자원' },
+                { source: 15, target: 18, value: resources.side_events, label: '자원' },
+
+                // --- OUTBOUND TO DETAILS ---
+                // GHG -> Details
+                { source: 17, target: 19, value: outboundDetails.transport, label: '여행/교통 부문' },
+                { source: 17, target: 20, value: outboundDetails.energy, label: '에너지 부문' },
+                { source: 17, target: 21, value: outboundDetails.food, label: '식음료 부문' },
+
+                // Circularity -> Details
+                { source: 18, target: 22, value: resources.total * 0.8, label: '재사용/렌탈' }, // Placeholder ratio
+                { source: 18, target: 23, value: resources.total * 0.2, label: '재활용' } // Placeholder ratio
+            ]
+        };
+
+        const nodeColors = [
+            '#F87171', '#EF4444', '#DC2626', '#991B1B', // Reds for Travel/Logistics
+            '#3B82F6',                                 // Blue for Offline Energy
+            '#FBBF24', '#F59E0B',                      // Ambers for Food
+            '#8B5CF6',                                 // Violet for Materials
+            '#60A5FA', '#93C5FD', '#A5B4FC', '#C7D2FE', '#E0E7FF', // Shades of Blue for Online Energy
+            '#1E293B', '#334155', '#475569', '#64748B', // Slates for Process
+            '#4B5563', '#10B981',                      // Gray for GHG, Green for Circularity
+            '#EF4444', '#3B82F6', '#F59E0B',            // Details match main categories
+            '#34D399', '#6EE7B7'                       // Greens for Circularity details
+        ];
+
+        const linkColors = Array(data.links.length).fill('rgba(0, 0, 0, 0.2)');
+
+        const sankeyData = {
+            type: "sankey",
+            orientation: "h",
+            valueformat: ".1f",
+            valuesuffix: " kgCO₂e",
+            node: {
+                pad: 15,
+                thickness: 20,
+                line: { color: "black", width: 0.5 },
+                label: [
+                    "✈️ 항공/숙박 (해외) (9명)",
+                    "🚗 자가용 (국내) (24,063명)",
+                    "🚌 대중교통 (국내) (33,635명)",
+                    "🚚 물류/장비 (14건)",
+                    "💡 오프라인 행사 (에너지)",
+                    "🍽️ 일반 식단 (케이터링 150인분)",
+                    "🥗 채식/저탄소 식단 (2,634개)",
+                    "♻️ 자원/물품",
+                    "온라인상영관 (415,825명)",
+                    "학교내 교육 (1,500명)",
+                    "SBS (1,000명)",
+                    "Btv (1,000명)",
+                    "유튜브 (1,000명)",
+                    "개막식",
+                    "본 행사 (오프라인 상영)",
+                    "부대행사 및 지방상영",
+                    "온라인 상영",
+                    "🔥 온실가스 배출 (195,155 kgCO₂e)",
+                    "🔄 자원 순환",
+                    "여행/교통 부문 배출 (181,921 kgCO₂e)",
+                    "에너지 부문 배출 (11,011 kgCO₂e)",
+                    "식음료 부문 배출 (2,223 kgCO₂e)",
+                    "재사용/렌탈 물품",
+                    "재활용 폐기물"
+                ],
+                color: nodeColors,
+                hovertemplate: '%{label}<extra></extra>'
+            },
+            link: {
+                source: data.links.map(l => l.source),
+                target: data.links.map(l => l.target),
+                value: data.links.map(l => l.value),
+                color: linkColors,
+                hovertemplate: '%{source.label} → %{target.label}<br><b>%{value:,.1f} kgCO₂e</b><extra></extra>'
+            }
+        };
+
+        const layout = {
+            title: {
+                text: "<b>2025 서울국제환경영화제 자원 흐름 및 탄소 배출 분석</b>",
+                font: {
+                    family: "'Noto Sans KR', sans-serif",
+                    size: 20,
+                    color: '#1E293B'
+                },
+                x: 0.5,
+                y: 0.98
+            },
+            font: {
+                family: "'Noto Sans KR', sans-serif",
+                size: 12
+            },
+            paper_bgcolor: 'white',
+            plot_bgcolor: 'white',
+            margin: { l: 20, r: 20, b: 50, t: 80 },
+            autosize: true
+        };
+
+        const chartDiv = document.getElementById('sankey-chart');
+        Plotly.newPlot(chartDiv, [sankeyData], layout, { responsive: true });
+
+        // --- Dynamically generate insights ---
+        const insightsContainer = document.getElementById('insights');
+        const transportShare = (outboundDetails.transport / totalGHG * 100).toFixed(1);
+        const onlineEnergyShare = (totalOnlineEnergy / outboundDetails.energy * 100).toFixed(1);
+
+        insightsContainer.innerHTML = `
+            <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-red-500">
+                <h4 class="font-bold text-xl mb-2 text-red-700">핵심 배출원: 참가자 '이동'</h4>
+                <p class="text-gray-600">
+                    전체 배출량의 <strong>${transportShare}%</strong>가 참가자와 물류의 '이동'에서 발생했습니다. 특히 '부대행사' 참여를 위한 국내 참가자의 이동(144,651 kgCO₂e)이 가장 큰 단일 배출 흐름을 형성하며, 분산된 행사의 교통 접근성 개선이 시급한 과제임을 보여줍니다.
+                </p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-500">
+                <h4 class="font-bold text-xl mb-2 text-blue-700">온라인 상영의 양면성</h4>
+                <p class="text-gray-600">
+                    온라인 상영은 전체 에너지 부문 배출량의 '78.2%'를 차지하며 새로운 환경 과제로 떠올랐습니다. 반면, 수많은 잠재적 관객의 이동을 줄이는 긍정적 효과도 있어, 향후 재생에너지 기반의 송출 파트너십이 중요해졌습니다.
+                </p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-green-500">
+                <h4 class="font-bold text-xl mb-2 text-green-700">자원 순환의 가치 증명</h4>
+                <p class="text-gray-600">
+                    물품 구매를 최소화하고 렌탈/재사용을 극대화한 '자원 순환' 흐름은, 온실가스 배출량으로 직접 집계되지는 않지만 폐기물 감축에 결정적인 기여를 했습니다. 이는 지속가능한 행사 운영의 핵심 성공 요소입니다.
+                </p>
+            </div>
+        `;
+
+    </script>
+</body>
+
+</html>
