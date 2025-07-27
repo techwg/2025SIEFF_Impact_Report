@@ -14,7 +14,7 @@
         .font-en { font-family: 'Inter', sans-serif; }
         .section-title { border-left: 4px solid #10B981; padding-left: 1rem; }
         .image-placeholder { background-color: #e2e8f0; display: flex; align-items: center; justify-content: center; color: #64748b; font-weight: bold; text-align: center; }
-        .bg-hero-vision-2030 { background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1534796636615-1b0428400ce4?q=80&w=2070&auto=format&fit=crop'); }
+        .bg-hero-vision-2030 { background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?q=80&w=2070&auto=format&fit=crop'); }
 
         /* 넷제로 전략 다이어그램 스타일 */
         .strategy-diagram {
@@ -222,12 +222,26 @@
             <div class="hidden md:flex items-center space-x-8">
                 <a href="index.html" class="text-gray-600 hover:text-emerald-600">홈</a>
                 <a href="global-research.html" class="text-gray-600 hover:text-emerald-600">글로벌 동향</a>
-                
                 <a href="sieff-impact.html" class="text-gray-600 hover:text-emerald-600">SIEFF 임팩트</a>
                 <a href="guidelines.html" class="text-gray-600 hover:text-emerald-600">실행 가이드</a>
                 <a href="vision-2030.html" class="text-emerald-600 font-bold">2030 비전</a>
             </div>
+            <div class="md:hidden">
+                <button id="menu-btn" class="text-gray-600 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
         </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden px-6 pb-4">
+            <a href="index.html" class="block py-2 text-gray-600 hover:text-emerald-600">홈</a>
+            <a href="global-research.html" class="block py-2 text-gray-600 hover:text-emerald-600">글로벌 동향</a>
+            <a href="sieff-impact.html" class="block py-2 text-gray-600 hover:text-emerald-600">SIEFF 임팩트</a>
+            <a href="guidelines.html" class="block py-2 text-gray-600 hover:text-emerald-600">실행 가이드</a>
+            <a href="vision-2030.html" class="block py-2 text-emerald-600 font-bold">2030 비전</a>
+        </div>
     </header>
 
     <!-- Hero Section -->
@@ -506,6 +520,16 @@
             <p class="mt-4 text-sm text-gray-500">© 2025 Seoul International Eco Film Festival. All Rights Reserved.본 페이지는 2025년 SIEFF 지속가능성 임팩트 리포트의 내용을 시각화한 인터랙티브 웹 애플리케이션입니다.</p>
         </div>
     </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
 
 </body>
 </html>

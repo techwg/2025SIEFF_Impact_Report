@@ -48,6 +48,20 @@
                 <a href="impact-report.html" class="text-gray-600 hover:text-emerald-600">임팩트 리포트</a>
                 <a href="mfa-report.html" class="text-emerald-600 font-bold">물질흐름분석</a>
             </div>
+            <div class="md:hidden">
+                <button id="menu-btn" class="text-gray-600 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden px-6 pb-4">
+            <a href="sieff-impact.html" class="block py-2 text-gray-600 hover:text-emerald-600">SIEFF 임팩트</a>
+            <a href="impact-report.html" class="block py-2 text-gray-600 hover:text-emerald-600">임팩트 리포트</a>
+            <a href="mfa-report.html" class="block py-2 text-emerald-600 font-bold">물질흐름분석</a>
+        </div>
         </nav>
     </header>
 
@@ -535,6 +549,14 @@
                 </p>
             </div>
         `;
+
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
 
     </script>
 </body>
