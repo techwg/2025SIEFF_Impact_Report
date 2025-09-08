@@ -442,8 +442,8 @@
                     domesticModes: { car: 102346, bus: 25383, subway: 16922 }
                 },
                 energy: {
-                    total: 11023,
-                    channels: { '오프라인': 431.57, '온라인': 10471.4, '방송': 57.4, 'IPTV': 80.64, '유튜브': 10.42 }
+                    total: 11021,
+                    channels: { '오프라인': 1097, '온라인 상영관': 8560, '방송': 38, 'IPTV': 1259, '유튜브': 67 }
                 },
                 food: {
                     total: 2223,
@@ -613,7 +613,7 @@
             new Chart(document.getElementById('energyChannelChart').getContext('2d'), {
                 type: 'bar',
                 data: {
-                    labels: ['오프라인', '온라인', '방송', 'IPTV', '유튜브'],
+                    labels: ['오프라인', '온라인 상영관', '방송', 'IPTV', '유튜브'],
                     datasets: [
                         { label: '2024년', data: Object.values(data2024.energyChannels), backgroundColor: '#A5B4FC' },
                         { label: '2025년', data: Object.values(data2025.energy.channels), backgroundColor: '#6EE7B7' }
